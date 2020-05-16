@@ -1,0 +1,39 @@
+{% extends 'base.twig' %}
+{% import 'macros.forms.twig' as forms %}
+{% set pageTitle = 'Install' %}
+
+{% set bodyClass = 'install form' %}
+{% block header %}{% endblock %}
+{% block main %}
+    <div class="box max-width-600 m-auto m-top-25 m-bottom-25 p-20 bg-white"></div>
+        <img src="/images/core/logo_large.jpg" class="display-block m-0-auto" />
+        <h1>{% block pagetitle %}Configuration{% endblock %}</h1>
+        {% if config.error %}
+            <div class="box notify bg-error t-color-white t-center m-10 p-10"><h3 class="m-0">Error</h3>{{ config.error }}</div>
+        {% endif %}
+        <form method="POST">
+            {% block formblock %}
+                {{ forms.hidden('purpose', 'edit') }}
+            {% endblock %}
+            {{ forms.text('siteTitle', 'Site Title', config.siteTitle, {'required': true}) }}
+            {{ forms.text('siteUrl', 'Site URL', config.siteUrl, {'data-validation': 'url'}) }}
+            {{ forms.checkbox('debug', 'Debug Mode', config.debug )}}
+            {{ forms.hint('True/false for regular error pages. If you want a full stack trace, install with dev dependencies and set this manually to "dev"')}}
+            <button class="primary">Save configuration</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block addscripts %}
+    <script>
+        require(['jquery', 'forms'], function ($) {
+            $(function() {
+                $.validate({
+                    borderColorOnError: false,
+                    errorMessageClass: 'error',
+                    errorMessagePosition: 'inline' 
+                });
+            });
+        });
+    </script>
+{% endblock %}

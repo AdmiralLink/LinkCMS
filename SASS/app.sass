@@ -1,0 +1,51 @@
+@use 'sass:map' as map
+    
+$blue: #001E44
+$teal: #3EA39E
+$darkTeal: darken($teal, 15%)
+$pink: #BC204B
+$darkPink: darken($pink, 5%)
+$orange: #E98300
+$darkOrange: darken($orange, 5%)
+$gray: #ccc
+$darkGray: #aaa
+
+$primary: $blue
+$secondary: $teal
+$primaryBg: $blue
+$secondaryBg: $darkTeal
+$warning: $orange
+$warningBg: $darkOrange
+$error: $pink
+$errorBg: $darkPink
+$info: $gray
+$infoBg: $darkGray
+
+$colorList: ('softBlack': rgba(0,0,0,0.25), 'white':'white', 'black':'black', 'primary': $primary, 'secondary': $secondary, 'secondaryAlt': $secondaryBg, 'error': $error, 'errorAlt': $errorBg, 'warning': $warning, 'warningAlt': $warningBg, 'info': $info, 'infoAlt': $infoBg)
+
+@import 'fonts'
+@import 'buttons'
+@import 'forms'
+@import 'layout'
+@import 'quill.bubble'
+
+@import 'pages/login'
+@import 'pages/manage'
+
+*
+    padding: 0
+    margin: 0
+    box-sizing: border-box
+html
+    height: 100%
+    font-size: 18px
+    header
+        h2
+            font-size: 30px
+    img
+        max-width: 100%
+        height: auto
+    hr
+        color: rgba(0,0,0,0.5)
+    a
+        color: $primary

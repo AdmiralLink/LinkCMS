@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% block pageTitle %}{{ pageTitle }} | {{ siteTitle }}{% endblock %}</title>
+        <script data-main="/js/app" src="/js/require.js"></script>
+        <link type="text/css" rel="stylesheet" href="/app.css" />
+        {% block addstyles %}{% endblock %}
+    </head>
+    {% if bodyClass is empty %}
+        <body class="manage">
+    {% else %}
+        <body class="manage {{ bodyClass|join(' ') }}">
+    {% endif %}
+        {% block header %}    
+            {% include '/partials/header.twig' %}
+        {% endblock %}
+        <main class="p-10">
+        {% block main %}
+
+        {% endblock main %}
+        </main>
+    <footer>{% block footer %}{% endblock %}</footer>
+    {% block footerlogo %}
+        <div class="position-absolute center-h bottom-0 z-index--1"><img src="/images/core/logo_oneline_small.png" alt="LinkCMS" /></div>
+    {% endblock %}
+    {% block scripts %}
+        <script src="https://kit.fontawesome.com/443eff81e7.js" crossorigin="anonymous"></script>
+        <script src="/js/app.js"></script>
+        {% block addscripts %}{% endblock %}
+    {% endblock %}
+</body>
+</html>

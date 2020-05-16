@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+
+{% block loginBtn %}{% endblock %}
+
+{% if siteTitle == null %}
+    {% set siteTitle = 'LinkCMS' %}
+{% endif %}
+
+{% set pageTitle = 'Error' %}
+
+{% set bodyClass = false %}
+
+{% block main %}
+    <div class="box bg-white max-width-800 text-center padding-20 margin-top-30 margin-auto">
+        {% if error and error.debug %}
+            <h1>Error</h1>
+            <p class="text-left"><strong>{{ error.file }}</strong>, <em>Line {{ error.line }}</em>: {{ error.message }}</p>
+        {% else %}
+            <h1>Oops</h1>
+            <p>We encountered an error. Please try again.</p>
+        {% endif %}
+    </div>
+{% endblock %}

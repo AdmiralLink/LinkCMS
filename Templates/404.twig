@@ -1,0 +1,16 @@
+{% extends 'base.twig' %}
+
+{% set pageTitle = 'Page not found' %}
+
+{% block loginBtn %}{% endblock %}
+
+{% set bodyClass = false %}
+
+{% block main %}
+    <div class="box max-width-600 margin-auto margin-top-25 margin-bottom-25 padding-20 bg-white text-center">
+        <h1>We're at a loss</h1>
+        <img src="/images/core/header_404.png" class="max-width-300" />
+        <p>We weren't able to find what you were looking for. Try searching, maybe?</p>
+        <div class="input-holder"><input type="text" placeholder="Search" /><button class="primary">Search</button></div>
+    </div>
+{% endblock %}

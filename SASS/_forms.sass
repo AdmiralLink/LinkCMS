@@ -1,0 +1,74 @@
+body.form
+    main
+        .alert.alert-danger
+            max-width: 600px
+            margin: 10px auto
+            padding: 15px
+            background: $errorBg
+            color: black
+            ul
+                list-style: none
+        form
+            width: 100%
+            max-width: 600px
+            margin: 0 auto
+            .parsley-errors-list.filled
+                margin-top: -10px
+                background: $errorBg
+                list-style: none
+                @extend .m-bottom-10
+                li
+                    @extend .p-4
+                    color: white
+            small.hint
+                color: $darkGray
+            label
+                display: block
+                font-weight: bold
+                text-transform: uppercase
+            textarea
+                display: none
+            input, select
+                display: block
+                width: 100%
+                font-size: 20px
+                padding: 3px
+                margin-bottom: 10px
+            input, textarea, select
+                &.error
+                    border: 2px solid $error
+            .checkbox
+                position: relative
+                padding-left: 27px
+                svg
+                    font-size: 23px
+                    color: $info
+                    position: absolute
+                    left: 0
+                    top: 2px
+                    &:last-of-type
+                        display: none
+                input[type="checkbox"]
+                    display: none
+                    &:checked
+                        + svg
+                            display: none
+                            + svg
+                                display: block
+                    ~ label
+                        cursor: pointer
+            .ql-editor
+                border: 1px solid rgba(0,0,0,0.15)
+                padding-bottom: 30px
+            fieldset.textarea
+                border: none
+                position: relative
+                .htmlSwitch
+                    position: absolute
+                    background: rgba(0,0,0,0.1)
+                    margin: 0
+                    right: 1px
+                    bottom: 1px
+                    padding: 3px
+                    font-size: 16px
+

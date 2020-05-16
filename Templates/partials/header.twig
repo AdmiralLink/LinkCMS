@@ -1,0 +1,24 @@
+<header class="grid-header display-grid bg-white shadow t-color-gray">
+    <div class="logo-space">
+        {% block logo %}
+            <h2 class="m-0 p-10">{{ siteTitle }}</h2>
+        {% endblock %}
+    </div>
+    <div class="menuspace">
+        {% block menu %}
+            {% include "partials/menu.twig" %}
+        {% endblock %}
+    </div>
+    <div class="button-space">
+        {% block loginBtn %}
+        <div class="hide-xs">
+            {% if user %}
+                <a href="/logout" class="button primary">Logout</a>
+            {% else %}
+                <a href="/login" class="button primary">Login</a>
+            {% endif %}
+        </div>
+        <button class="button primary hide-tab" data-function="menu-toggle">Menu <i class="m-left-2 fas fa-chevron-square-down"></i></a>
+        {% endblock %}
+    </div>
+</header>

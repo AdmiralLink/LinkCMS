@@ -1,0 +1,5 @@
+{% for menuItem in menu %}
+    <a class="display-block p-4{% if pageSlug == menuItem.slug %} t-color-white bg-primary{% endif %}" {% if menuItem.attr %}{% for param,value in menuItem.attr %}data-{{param}}="{{value}}" {% endfor %}{% endif %}data-slug="{{ menuItem.slug }}" href="{{ menuItem.href }}">{{ menuItem.name }}</a>
+    {% if menuItem.children %}
+    {% endif %}
+{% endfor %}

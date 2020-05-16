@@ -1,0 +1,84 @@
+{% extends '/base.twig' %}
+{% import 'macros.forms.twig' as forms %}
+{% block pageTitle %}Install | LinkCMS{% endblock %}
+
+{% set bodyClass = 'install form' %}
+{% block header %}{% endblock %}
+{% block addstyles %}
+<style>
+    .authentication {
+        display: none;
+    }
+</style>
+{% endblock %}
+{% block main %}
+    <div class="box max-width-600 m-auto m-top-25 m-bottom-25 p-20 bg-white">
+        <img src="/images/core/logo_large.jpg" class="display-block m-0-auto" />
+        {% if config.error %}
+            <div class="box notify bg-error t-color-white t-center m-10 p-10"><h3 class="m-0">Error</h3>{{ config.error }}</div>
+        {% endif %}
+        <form method="POST">
+            {{ forms.text('siteTitle', 'Site Title', config.siteTitle, {'required': true}) }}
+            {{ forms.text('siteUrl', 'Site URL', config.siteUrl, {'required': true}) }}
+            {{ forms.checkbox('debug', 'Debug Mode', config.debug )}}
+            <hr class="m-top-25 m-bottom-25" />
+            {{ forms.text('dbHost', 'Database Host', config.dbHost, {'required': true}) }}
+            {{ forms.text('dbName', 'Database Name', config.dbName, {'required': true}) }}
+            {{ forms.text('dbUser', 'Database User', config.dbUser, {'required': true}) }}
+            {{ forms.text('dbPassword', 'Database Password', config.dbPassword, {'required': true}) }}
+            <hr class="m-top-25 m-bottom-25" />
+            {{ forms.label('authenticationMethod', 'Authentication Method') }}
+            {{ forms.select('authenticationMethod', {'password': 'Password','openid': 'OpenID', 'auth0': 'Auth0'}) }}
+            <div class="authentication" data-type="password">
+                {{ forms.email('passwordEmail', 'Admin email address', config.passwordEmail) }}
+                {{ forms.text('passwordUsername', 'Username', config.passwordUsername) }}
+                {{ forms.password('password', 'Password', false)}}
+                {{ forms.password('confirmPassword', 'Confirm Password', false) }}
+            </div>
+            <div class="authentication" data-type="openid">
+                {{ forms.text('openidAuthUrl', 'Authorization URL', config.openidAuthUrl) }}
+            </div>
+            <div class="authentication" data-type="auth0">
+                {{ forms.text('auth0ApiKey', 'Auth0 API Key', conifg.auth0ApiKey) }}
+            </div>
+            <button class="primary">Save configuration</button>
+        </form>
+    </div>
+{% endblock %} 
+{% block footerlogo %}{% endblock %}
+{% block addscripts %}
+    <script>
+        require(['jquery', 'parsley'], function ($, parsely) {
+            function check_validators() {
+                let method = $('select#authenticationMethod').val();
+                $('form').parsley().destroy();
+                let currentAuth = $('.authentication:visible');
+                if (currentAuth) {
+                    $('input', currentAuth).removeAttr('required').removeAttr('data-parsley-equalTo');
+                    currentAuth.hide();
+                }
+                let newAuth = $('.authentication[data-type="' + method + '"]');
+                switch (method) {
+                    case 'password':
+                        $('input', newAuth).attr('required', true);
+                        $('#confirmPassword').attr('data-parsley-equalTo', '#password');
+                        break;
+                    case 'openid':
+                        $('input', newAuth).attr('required', true);    
+                        break;
+                    case 'Auth0':
+                        $('input', newAuth).attr('required', true);
+                        break;
+                }
+                $('form').parsley();
+                newAuth.show();
+            }
+            $(function() {
+                check_validators();
+                $('select#authenticationMethod').on('change', function() {
+                    check_validators();
+                });
+            });
+        });
+    </script>
+{% endblock %}

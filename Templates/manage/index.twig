@@ -1,0 +1,24 @@
+{% extends 'base.twig' %}
+
+{% if pageTitle is empty %}
+    {% set pageTitle = 'Index' %}
+{% endif %}
+{% if bodyClass is empty %}
+    {% set bodyClass = false %} 
+{% endif %}
+
+{% block main %}
+    <div class="manage-container display-grid-tab margin-10-auto max-width-1200">
+        <aside class="bg-white margin-top-10">
+            <nav>
+                {% set menu = manageMenu %}
+                {% include '/partials/menu.twig' %}
+            </nav>
+        </aside>
+        <section class="bg-white box p-10 p-top-30 p-bottom-30">
+            {% block content %}
+                Um, menu much?
+            {% endblock %}
+        </section>
+    </div>
+{% endblock %}

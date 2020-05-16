@@ -1,0 +1,122 @@
+// Margins/Padding
+.margin-0-auto
+    margin: 0 auto
+.margin-auto
+    margin-left: auto
+    margin-right: auto
+@for $i from 0 through 5
+    $j: ($i+1) * 5
+    $k: ($i+1) * 2
+    .b-#{$i}
+        border-width: #{$i}px
+    .rounded-#{$k}
+        border-radius: #{$j}px
+    .z--#{$i}
+        z-index: -#{$i}
+    @each $type, $prop in ('m': 'margin', 'p': 'padding')
+        .#{$type}-#{$k}
+            #{$prop}: #{$k}px
+        @each $direction in ['top','bottom','left','right']
+            .#{$type}-#{$direction}-#{$k}
+                #{$prop}-#{$direction}: #{$k}px
+@for $i from 0 through 10
+    $k: ($i+3) * 100
+    $j: ($i+1) * 5
+    .mw-#{$k}
+        max-width: #{$k}px
+    .z-#{$i}
+        z-index: #{$i}
+    .m-#{$j}-auto
+        margin: #{$j}px auto
+@for $i from 3 through 11 
+    $value: ($i - 1) * 5
+    @each $type in ['margin', 'padding']
+        .#{$type}-#{$value}
+            #{$type}: #{$value}px
+        @each $direction in ['top','bottom','left','right']
+            .#{$type}-#{$direction}-#{$value}
+                #{$type}-#{$direction}: #{$value}px
+// Colors
+@each $name, $color in $colorList
+    .b-color-#{$name}
+        border-color: #{$color}
+    .bg-#{$name}
+        background-color: #{$color}
+    .t-color-#{$name}
+        color: #{$color}
+.b-solid
+    border-style: solid
+.b-dashed
+    border-style: dashed
+.shadow
+    box-shadow: 0 0 4px 1px rgba(0,0,0,0.25)
+// Display
+.box
+    border: 4px solid rgba(0,0,0,0.15)
+    border-radius: 5px
+    @extend .shadow
+// Text 
+.t-center
+    text-align: center
+.t-right
+    text-align: right
+.t-left
+    text-align: left
+.center-v
+    top: 50%
+    transform: translateY(-50%) 
+.center-h
+    left: 50%
+    transform: translateX(-50%)
+.center-center
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+@each $direction in ['top','bottom','left','right']
+    .#{$direction}-0
+        #{$direction}: 0
+// Layout
+@each $position in ['absolute','relative','static','fixed','sticky']
+    .position-#{$position}
+        position: #{$position}
+@each $display in ['inline', 'inline-block', 'static', 'grid', 'flex', 'block']
+    .display-#{$display}
+        display: #{$display}
+@each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+    .col-#{$col}
+        grid-template-columns: repeat(#{$col}, #{$width})
+@each $size,$px in ('xs': '767px', 'tab':'768px', 'lg':'1024px', 'xl':'1280px','wide': '1400px')
+    @if $size == 'xs'
+        @media(max-width: $px)
+            @each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+                .col-#{$size}-#{$col}
+                    grid-template-columns: repeat(#{$col}, #{$width})
+            .hide-#{$size}
+                display: none
+            .show-#{$size}
+                display: block
+            @each $position in ['absolute','relative','static','fixed','sticky']
+                .pos-#{$position}-#{$size}
+                    position: #{$position}
+            @each $display in ['block', 'inline','inline-block','static','grid']
+                .display-#{$display}-#{$size}
+                    display: #{$display}
+    @else
+        @media(min-width: $px)
+            @each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+                .col-#{$size}-#{$col}
+                    grid-template-columns: repeat(#{$col}, #{$width})
+            .hide-#{$size}
+                display: none
+            .show-#{$size}
+                display: block
+            @each $position in ['absolute','relative','static','fixed','sticky']
+                .pos-#{$position}-#{$size}
+                    position: #{$position}
+            @each $display in ['block', 'inline','inline-block','static','grid']
+                .display-#{$display}-#{$size}
+                    display: #{$display}
+.show
+    display: block
+.hide
+    display: none

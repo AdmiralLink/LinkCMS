@@ -1,0 +1,13 @@
+{
+  "database" : {
+    "dbHost" : "localhost",
+    "dbName" : "dbname",
+    "dbUser" : "root",
+    "dbPassword" : "root"
+  },
+  "debug": true,
+  "securityToken" : "SomeStringGoesHere",
+  "siteTitle": "My Awesome Site",
+  "siteUrl": "url.com",
+  "templateName": "templateSlug"
+}
