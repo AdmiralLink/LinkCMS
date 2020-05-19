@@ -1,0 +1,27 @@
+{% extends 'base.twig' %}
+
+{% if pageTitle is empty %}
+    {% set pageTitle = 'Content' %}
+{% endif %}
+{% if bodyClass is empty %}
+    {% set bodyClass = false %} 
+{% endif %}
+
+{% block main %}
+    <nav class="content-create-menu">
+        {% include '/partials/menu.twig' with { 'menu': manageMenu, 'coloration': 'class' } %}
+    </nav>
+    <form method="POST" {% block formAction %}{% endblock %}class="manage-content-container display-grid-tab m-0-auto mw-1200">
+        <section class="bg-white box p-10 p-top-30 p-bottom-30">
+            {% block content %}
+            
+            {% endblock %}
+        </section>
+        <aside class="bg-darkGray p-10 t-color-white m-top-10">
+            {% block metadata %}
+            
+            {% endblock %}
+        </aside>
+        {% block formEnd %}{% endblock %}
+    </form>
+{% endblock %}
