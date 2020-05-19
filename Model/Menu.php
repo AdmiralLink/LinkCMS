@@ -29,10 +29,10 @@ class Menu {
     public function get_items() {
         $itemObject = new \ArrayObject($this->items);
         $itemObject->uasort(function($a, $b) {
-            if ($a->weight == $b->weight) {
+            if ($a->positionWeight == $b->positionWeight) {
                 return ($a->slug < $b->slug) ? -1 : 1;
             } else {
-                return ($a->weight < $b->weight) ? -1 : 1;
+                return ($a->positionWeight > $b->positionWeight) ? -1 : 1;
             }
         });
         return $itemObject->getArrayCopy();

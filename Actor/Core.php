@@ -2,10 +2,10 @@
 
 namespace LinkCMS\Actor;
 
+use \Flight;
 use LinkCMS\Controller\Database;
 use LinkCMS\Model\Menu;
 use LinkCMS\Model\User;
-use LinkCMS\Modules\Authenticate\Actor as AuthenticateActor;
 
 class Core {
     var $config;
@@ -182,11 +182,16 @@ class Core {
         }
     }
 
-    public static function is_authorized($userLevel = User::USER_LEVEL_BASIC) {
+    public static function is_authorized($userLevel = User::USER_LEVEL_BASIC, $redirect=true) {
         if (Core::do_hook('logged_in')) {
             return (Core::do_hook('check_user_level', $userLevel));
         } else {
-            return false;
+            if ($redirect) {
+                Route::add_redirect();
+                Flight::redirect('/login', 401);
+            } else {
+                return false;
+            }
         }
     }
 
@@ -214,8 +219,6 @@ class Core {
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
 
         Route::register_handlers();
-
-        AuthenticateActor::register();
 
         $GLOBALS['linkcmscore']->modules = new Module();
 

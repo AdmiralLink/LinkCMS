@@ -8,10 +8,7 @@ body.form
             color: black
             ul
                 list-style: none
-        form
-            width: 100%
-            max-width: 600px
-            margin: 0 auto
+        form, .form
             .parsley-errors-list.filled
                 margin-top: -10px
                 background: $errorBg
@@ -71,4 +68,8 @@ body.form
                     bottom: 1px
                     padding: 3px
                     font-size: 16px
+            &.label-s
+                label
+                    font-size: 14px
+                    @extend .t-color-darkGray
 

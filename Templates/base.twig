@@ -11,9 +11,9 @@
         {% block addstyles %}{% endblock %}
     </head>
     {% if bodyClass is empty %}
-        <body class="manage">
+        <body class="manage bg-gray position-relative">
     {% else %}
-        <body class="manage {{ bodyClass|join(' ') }}">
+        <body class="manage bg-gray position-relative {{ bodyClass|join(' ') }}">
     {% endif %}
         {% block header %}    
             {% include '/partials/header.twig' %}

@@ -7,6 +7,8 @@ $pink: #BC204B
 $darkPink: darken($pink, 5%)
 $orange: #E98300
 $darkOrange: darken($orange, 5%)
+$green: #2f856e
+$darkGreen: #006a4e
 $gray: #ccc
 $darkGray: #aaa
 
@@ -14,6 +16,8 @@ $primary: $blue
 $secondary: $teal
 $primaryBg: $blue
 $secondaryBg: $darkTeal
+$success: $green
+$successBg: $darkGreen
 $warning: $orange
 $warningBg: $darkOrange
 $error: $pink
@@ -21,13 +25,15 @@ $errorBg: $darkPink
 $info: $gray
 $infoBg: $darkGray
 
-$colorList: ('softBlack': rgba(0,0,0,0.25), 'white':'white', 'black':'black', 'primary': $primary, 'secondary': $secondary, 'secondaryAlt': $secondaryBg, 'error': $error, 'errorAlt': $errorBg, 'warning': $warning, 'warningAlt': $warningBg, 'info': $info, 'infoAlt': $infoBg)
+$colorList: ('gray': $gray, 'darkGray': $darkGray, 'softBlack': rgba(0,0,0,0.25), 'white':'white', 'black':'black', 'primary': $primary, 'secondary': $secondary, 'secondaryAlt': $secondaryBg, 'success': $success, 'error': $error, 'errorAlt': $errorBg, 'warning': $warning, 'warningAlt': $warningBg, 'info': $info, 'infoAlt': $infoBg)
 
 @import 'fonts'
 @import 'buttons'
 @import 'forms'
 @import 'layout'
-@import 'quill.bubble'
+
+@import 'lib/quill.bubble'
+@import 'lib/flatpickr'
 
 @import 'pages/login'
 @import 'pages/manage'

@@ -20,28 +20,34 @@ class Route {
         array_push($core->routes, $function);
     }
 
-    public static function add_redirect($location=false) {
+    public static function add_redirect($location=false, $type=307) {
         if (!$location) {
             $request = \Flight::request();
             $location = $request->url;
         }
-        setcookie('redirect', $location);
+        setcookie('redirect', serialize(['location'=>$location, 'type'=>$type]));
     }
 
-    public static function check_redirects($location='/') {
+    public static function check_redirects($location=false) {
         /**
          * Check if a redirect has been set; if so, go to it, or the parameter. Typically used after login
          * 
          * @param $location The location to redirect to if none set previously (default home page)
          */
         if (isset($_COOKIE['redirect'])) {
-            $location = $_COOKIE['redirect'];
-            unset($_SESSION['redirect']);
+            $redirect = unserialize($_COOKIE['redirect']);
         } else if (isset($_SESSION['redirect'])) {
-            $location = $_SESSION['redirect'];
-            unset($_SESSION['redirect']);
+            $redirect = $_SESSION['redirect'];
         }
-        Flight::redirect($location);
+        unset($_SESSION['redirect']);
+        setcookie('redirect');
+        $location = (isset($redirect['location'])) ? $redirect['location'] : $location;
+        $type = (isset($redirect['type'])) ? $redirect['type'] : 303;
+        if ($location) {
+            Flight::redirect($location, $type);
+        } else {
+            return false;
+        }
     }
 
     public static function do_routes() {
@@ -54,12 +60,16 @@ class Route {
 
         Flight::route('GET /manage', function() {
             if (Core::is_logged_in()) {
-                if (Core::is_authorized(User::USER_LEVEL_EDITOR)) {
+                Route::check_redirects();
+                if (Core::is_authorized(User::USER_LEVEL_AUTHOR, false)) {
                     Display::load_page('manage/index.twig');
                 } else {
                     $user = Core::get_user();
                     Display::load_page('manage/users/edit/' . $user->username);
                 }
+            } else {
+                Route::add_redirect();
+                Flight::redirect('/login');
             }
         });
         

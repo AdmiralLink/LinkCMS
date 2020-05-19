@@ -1,7 +1,7 @@
 // Margins/Padding
-.margin-0-auto
+.m-0-auto
     margin: 0 auto
-.margin-auto
+.m-auto
     margin-left: auto
     margin-right: auto
 @for $i from 0 through 5
@@ -22,6 +22,10 @@
 @for $i from 0 through 10
     $k: ($i+3) * 100
     $j: ($i+1) * 5
+    $l: unquote('0.'+#{$i})
+    @if ($i != 0 and $i != 10)
+        .o-#{$i}0
+            opacity: $l
     .mw-#{$k}
         max-width: #{$k}px
     .z-#{$i}
@@ -30,12 +34,12 @@
         margin: #{$j}px auto
 @for $i from 3 through 11 
     $value: ($i - 1) * 5
-    @each $type in ['margin', 'padding']
+    @each $type,$param in ('m': 'margin', 'p': 'padding')
         .#{$type}-#{$value}
-            #{$type}: #{$value}px
+            #{$param}: #{$value}px
         @each $direction in ['top','bottom','left','right']
             .#{$type}-#{$direction}-#{$value}
-                #{$type}-#{$direction}: #{$value}px
+                #{$param}-#{$direction}: #{$value}px
 // Colors
 @each $name, $color in $colorList
     .b-color-#{$name}
@@ -82,15 +86,15 @@
 @each $display in ['inline', 'inline-block', 'static', 'grid', 'flex', 'block']
     .display-#{$display}
         display: #{$display}
-@each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+@each $col in [2,3,4,5,6,7,8,9,10]
     .col-#{$col}
-        grid-template-columns: repeat(#{$col}, #{$width})
+        grid-template-columns: repeat(#{$col}, 1fr)
 @each $size,$px in ('xs': '767px', 'tab':'768px', 'lg':'1024px', 'xl':'1280px','wide': '1400px')
     @if $size == 'xs'
         @media(max-width: $px)
-            @each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+            @each $col in [2,3,4,5,6,7,8,9,10]
                 .col-#{$size}-#{$col}
-                    grid-template-columns: repeat(#{$col}, #{$width})
+                    grid-template-columns: repeat(#{$col}, 1fr)
             .hide-#{$size}
                 display: none
             .show-#{$size}
@@ -103,9 +107,9 @@
                     display: #{$display}
     @else
         @media(min-width: $px)
-            @each $col,$width in (2: '50%', 3:'33%', 4:'25%', 5:'20%', 6:'16.6%')
+            @each $col in [2,3,4,5,6,7,8,9,10]
                 .col-#{$size}-#{$col}
-                    grid-template-columns: repeat(#{$col}, #{$width})
+                    grid-template-columns: repeat(#{$col}, 1fr)
             .hide-#{$size}
                 display: none
             .show-#{$size}
@@ -120,3 +124,5 @@
     display: block
 .hide
     display: none
+.grid-auto
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr))

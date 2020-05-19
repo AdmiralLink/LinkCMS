@@ -1,4 +1,4 @@
-define(['jquery', 'sweetalert2'], function ($, swal) {
+define(['sweetalert2'], function (swal) {
     var exports = {};
     
     var show_message = exports.show = function(type, message, options) {

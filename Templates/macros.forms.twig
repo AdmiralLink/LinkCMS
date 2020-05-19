@@ -40,53 +40,71 @@
   <button class="button {{ class }}"{% if id is defined and value is defined %} data-{{ id }}="{{ value }}{% endif %}">{{ text }}</button>
 {% endmacro %}
 
-{% macro date(name, value, attributes) %}
-  {% from _self import input %}
+{% macro date(name, fancyName, value, attributes) %}
+{% from _self import input %}
+{% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "date", attributes) }}
 {% endmacro %}
 
-{% macro file(name, value, attributes) %}
+{% macro file(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "file", attributes) }}
 {% endmacro %}
 
-{% macro hidden(name, value, attributes) %}
+{% macro hidden(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {{ input(name, value, "hidden", attributes) }}
 {% endmacro %}
 
-{% macro month(name, value, attributes) %}
+{% macro month(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "month", attributes) }}
 {% endmacro %}
 
-{% macro number(name, value, attributes) %}
+{% macro number(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "number", attributes) }}
 {% endmacro %}
 
-{% macro range(name, value, attributes) %}
+{% macro range(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "range", attributes) }}
 {% endmacro %}
 
-{% macro search(name, value, attributes) %}
+{% macro search(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "search", attributes) }}
 {% endmacro %}
 
-{% macro tel(name, value, attributes) %}
+{% macro tel(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "tel", attributes) }}
 {% endmacro %}
 
-{% macro time(name, value, attributes) %}
+{% macro time(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "time", attributes) }}
 {% endmacro %}
 
-{% macro url(name, value, attributes) %}
+{% macro url(name, fancyName, value, attributes) %}
   {% from _self import input %}
+  {% from _self import label %}
+  {{ label(name, fancyName) }}
   {{ input(name, value, "url", attributes) }}
 {% endmacro %}
 

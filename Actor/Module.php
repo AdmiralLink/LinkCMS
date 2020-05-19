@@ -11,14 +11,15 @@ class Module {
     public $disabled = [];
 
     public function __construct() {
-        $config = Config::load();
-        if (isset($config->modules) && !empty($config->modules)) {
-            $this->disabled = $config->modules->disabled;
-            $this->active = $config->modules->active;
-            $this->config = $config->modules;
+        $modules = Core::get_config('modules');
+        if (isset($modules)) {
+            $this->disabled = $modules->disabled;
+            $this->active = $modules->active;
+            $this->config = $modules;
         }
         $this->add_menu_items();
         Route::add_route(['\LinkCMS\Actor\Module', 'add_routes']);
+        $this->load_modules();
     }
     
     private function add_menu_items() {
@@ -60,6 +61,14 @@ class Module {
                 } else {
                     $this->add_to_disabled($location, 'Missing module.json');
                 }
+            }
+        }
+    }
+
+    private function load_modules() {
+        foreach ($this->active as $module) {
+            if (!class_exists($module->register[0], FALSE)) {
+                call_user_func($module->register);
             }
         }
     }

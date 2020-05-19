@@ -8,11 +8,10 @@
 {% endif %}
 
 {% block main %}
-    <div class="manage-container display-grid-tab margin-10-auto max-width-1200">
-        <aside class="bg-white margin-top-10">
+    <div class="manage-container display-grid-tab m-10-auto mw-1200">
+        <aside class="bg-white m-top-10">
             <nav>
-                {% set menu = manageMenu %}
-                {% include '/partials/menu.twig' %}
+                {% include '/partials/menu.twig' with { 'menu': manageMenu } %}
             </nav>
         </aside>
         <section class="bg-white box p-10 p-top-30 p-bottom-30">

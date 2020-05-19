@@ -1,3 +1,26 @@
+# 0.4.0
+## ADDED
+- Flatpickr (date picker) + pristine (validator) JS plugins
+- Proper default action for is_authorized hook
+- Module loading
+- .form class if you want elements but not a real form
+- Columnar CSS grid layouts (.col-X, .col-xs-X), .auto-grid
+- Success, green SASS classes
+## MODIFIED
+- Created 'SASS/lib' folder, moved quill to it
+- Menu coloration working properly, sorting working
+- Add_redirect now gives option to set HTTP header, default temp redirect
+- Redirect cookie now serialized array instead of string
+- Fixed redirect loop when checking for redirects
+- Fixed some of the form twig elements to include labels
+## REMOVED
+- jQuery, Parsley (requires jQuery)
+- Direct call to Authenticate/Actor register in Core::load() (now loaded as module)
+
+# 0.3.2
+## MODIFIED
+- More dangling CSS changes
+
 # 0.3.1
 ## MODIFIED
 - Modules twig looks for correct parameter (active instead of all)

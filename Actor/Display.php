@@ -109,6 +109,9 @@ class Display {
         $parts = explode('/', $request->url);
         if (count($parts) > 1) {
             $GLOBALS['linkcmsTwigLoader']->addGlobal('pageSlug', $parts[count($parts)-1]);
+            if (($key = array_search('manage', $parts)) !== false) {
+                unset($parts[$key]);
+            }
             $GLOBALS['linkcmsTwigLoader']->addGlobal('parentSlugs', $parts);
         } else if (count($parts) == 1) {
             $GLOBALS['linkcmsTwigLoader']->addGlobal('pageSlug', $parts[0]);
