@@ -3,11 +3,7 @@
 namespace LinkCMS\Actor;
 
 use \Flight;
-use LinkCMS\Actor\Core;
-use LinkCMS\Actor\FormInstallHandler;
-use LinkCMS\Actor\Display;
-use LinkCMS\Actor\Notify;
-use LinkCMS\Model\User;
+use LinkCMS\Model\User as UserModel;
 
 class Route {
     public static function add_route($function) {
@@ -34,7 +30,7 @@ class Route {
          * 
          * @param $location The location to redirect to if none set previously (default home page)
          */
-        if (isset($_COOKIE['redirect'])) {
+        if (isset($_COOKIE['redirect']) && $_COOKIE['redirect']) {
             $redirect = unserialize($_COOKIE['redirect']);
         } else if (isset($_SESSION['redirect'])) {
             $redirect = $_SESSION['redirect'];
@@ -59,12 +55,12 @@ class Route {
         $core = Core::load();
 
         Flight::route('GET /manage', function() {
-            if (Core::is_logged_in()) {
+            if (User::is_logged_in()) {
                 Route::check_redirects();
-                if (Core::is_authorized(User::USER_LEVEL_AUTHOR, false)) {
+                if (User::is_authorized(UserModel::USER_LEVEL_AUTHOR, false)) {
                     Display::load_page('manage/index.twig');
                 } else {
-                    $user = Core::get_user();
+                    $user = User::get_current_user();
                     Display::load_page('manage/users/edit/' . $user->username);
                 }
             } else {
@@ -81,7 +77,7 @@ class Route {
 
         Flight::map('error', function($e){
             global $whoops;
-            
+    
             $core = Core::load();
             if ($core->configLoaded && (Core::get_config('debug') === 'dev')) {
                 $whoops->handleException($e);
@@ -105,6 +101,8 @@ class Route {
             $whoops = new \Whoops\Run;
             $whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
+        } else {
+            set_exception_handler(['LinkCMS\Actor\Error', 'handle_error']);
         }
     }
 }

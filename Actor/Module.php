@@ -12,7 +12,7 @@ class Module {
 
     public function __construct() {
         $modules = Core::get_config('modules');
-        if (isset($modules)) {
+        if ($modules) {
             $this->disabled = $modules->disabled;
             $this->active = $modules->active;
             $this->config = $modules;

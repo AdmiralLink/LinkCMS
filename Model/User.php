@@ -51,7 +51,7 @@ class User {
         if ($level < 5 || $level < 1) {
             return false;
         } else {
-            return self::$USERLEVELS;
+            return self::$USERLEVELS[$level];
         }
     }
 }

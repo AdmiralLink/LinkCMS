@@ -174,29 +174,13 @@ class Core {
         }
     }
 
-    public static function get_user() {
-        if (Core::do_hook('logged_in')) {
-            return Core::do_hook('get_user');
+    public static function has_hook($hookName) {
+        $core = Core::load();
+        if (isset($core->hooks[$hookName]) && count($core->hooks[$hookName]) > 0) {
+            return true;
         } else {
             return false;
         }
-    }
-
-    public static function is_authorized($userLevel = User::USER_LEVEL_BASIC, $redirect=true) {
-        if (Core::do_hook('logged_in')) {
-            return (Core::do_hook('check_user_level', $userLevel));
-        } else {
-            if ($redirect) {
-                Route::add_redirect();
-                Flight::redirect('/login', 401);
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public static function is_logged_in() {
-        return Core::do_hook('logged_in');
     }
 
     public static function load() {
@@ -213,12 +197,13 @@ class Core {
         if (!isset($GLOBALS['linkcmsconfig'])) {
             $GLOBALS['linkcmsconfig'] = new Config();
         }
+        
+        Route::register_handlers();
 
         $GLOBALS['linkcmscore']->config = Config::load();
         $GLOBALS['linkcmscore']->configLoaded = $GLOBALS['linkcmscore']->config->configLoaded;
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
 
-        Route::register_handlers();
 
         $GLOBALS['linkcmscore']->modules = new Module();
 

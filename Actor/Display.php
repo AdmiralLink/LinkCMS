@@ -10,7 +10,7 @@ class Display {
      */
     var $filters = [];
     var $functions = [];
-    var $reserved = ['filters', 'functions', 'manageMenu', 'messages', 'pageSlug', 'parentSlugs', 'reserved', 'variables'];
+    var $reserved = ['filters', 'functions', 'manageMenu', 'messages', 'pageSlug', 'parentSlugs', 'reserved', 'variables', 'user', 'userLevels'];
     var $templateDirectories = [];
     var $variables = [];
 
@@ -68,6 +68,8 @@ class Display {
         foreach (['siteTitle', 'siteUrl', 'siteDebug'] as $configVar) {
             $GLOBALS['linkcmsTwigLoader']->addGlobal($configVar, Core::get_config($configVar));
         }
+
+        $GLOBALS['linkcmsTwigLoader']->addGlobal('user', User::get_current_user());
 
         $GLOBALS['linkcmsTwigLoader']->addGlobal('manageMenu', $core->menu->get_items());
     }

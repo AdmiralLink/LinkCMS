@@ -11,10 +11,10 @@
 {% set bodyClass = false %}
 
 {% block main %}
-    <div class="box bg-white max-width-800 text-center padding-20 margin-top-30 margin-auto">
+    <div class="box bg-white mw-800 t-center p-20 m-top-30 m-auto">
         {% if error and error.debug %}
             <h1>Error</h1>
-            <p class="text-left"><strong>{{ error.file }}</strong>, <em>Line {{ error.line }}</em>: {{ error.message }}</p>
+            <p class="text-left"><strong>{{ error.file }}</strong><br /><em>Line {{ error.line }}</em>: {{ error.message }}</p>
         {% else %}
             <h1>Oops</h1>
             <p>We encountered an error. Please try again.</p>

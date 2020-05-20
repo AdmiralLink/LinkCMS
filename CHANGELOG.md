@@ -1,3 +1,13 @@
+# 0.5.0
+## ADDED
+- User actor
+- User controller's load_all method
+- Basic responsive CSS table layout
+## MODIFIED
+- User functions moved out of Core to User actor (users hooks, but does not rely solely on them)
+- Calls because of above (including Display's User global)
+- Set exception handler so we don't have uncaught exceptions when whoops is not running
+
 # 0.4.0
 ## ADDED
 - Flatpickr (date picker) + pristine (validator) JS plugins

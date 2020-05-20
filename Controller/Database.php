@@ -27,7 +27,7 @@ class Database {
 
         $query = $db->connection->prepare('SELECT * FROM ' . static::$dbTable . ' WHERE '. $field . ' ' . $evaluator . ' :value');
         $query->execute(['value'=>$value]);
-        return $query->fetch_all(\PDO::FETCH_ASSOC);
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public static function load_by(String $field, $value) {
