@@ -26,7 +26,7 @@ class Theme {
     }
 
     public static function load_current_theme() {
-        $templateName = Core::get_config('theme');
+        $templateName = Config::get_config('theme');
         return new Theme($templateName);
     }
 

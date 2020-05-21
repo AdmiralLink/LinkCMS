@@ -11,7 +11,7 @@ class Module {
     public $disabled = [];
 
     public function __construct() {
-        $modules = Core::get_config('modules');
+        $modules = Config::get_config('modules');
         if ($modules) {
             $this->disabled = $modules->disabled;
             $this->active = $modules->active;

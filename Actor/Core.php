@@ -144,16 +144,6 @@ class Core {
         return $core->db;
     }
 
-    public static function get_config($param=false) {
-        /**
-         * Loads a value from the current site.json file. If $param is false, returns the entire configuration
-         * 
-         * @param $param The parameter to load
-         */
-        $config = Config::load();
-        return $config->get_value($param);
-    }
-
     public static function get_messages() {
         /**
          * Get the messages to display on the screen. (System-only)
@@ -201,7 +191,6 @@ class Core {
         Route::register_handlers();
 
         $GLOBALS['linkcmscore']->config = Config::load();
-        $GLOBALS['linkcmscore']->configLoaded = $GLOBALS['linkcmscore']->config->configLoaded;
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
 
 

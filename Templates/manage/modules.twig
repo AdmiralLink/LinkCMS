@@ -13,12 +13,12 @@
             <div class="p-8 b-1 b-solid b-color-softBlack">
                 <h2>{{ attribute(module,"name") }}</h2>
                 <p>
-                {% for param,name in {'moduleUrl':'Module URL', 'author': 'Author','authorUrl':'Author URL'} %}
+                {% for param,name in {'moduleUrl':'Module URL', 'description':'Description', 'author': 'Author', 'authorUrl':'Author URL'} %}
                     {% if attribute(module,param) %}
                         {% if param == 'moduleUrl' or param == 'authorUrl' %}
                             {% if param != 'moduleUrl' %}<strong>{{ name }}:</strong> {% endif %}<a href="{{ attribute(module,param) }}">{{ attribute(module,param) }}</a><br />
                         {% else %}    
-                            <strong>{{ name }}:</strong> {{ attribute(module,param) }}<br />
+                            {% if param != 'description' %}<strong>{{ name }}:</strong> {% endif %}{{ attribute(module,param) }}<br />
                         {% endif %}
                     {% endif %}
                 {% endfor %}

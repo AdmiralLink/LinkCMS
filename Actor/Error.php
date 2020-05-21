@@ -24,7 +24,8 @@ class Error {
         if (strpos($request->url, '/manage') != 0 && $error->handler) {
             call_user_func($error->handler, $e);
         } else {
-            self::internal_error_handler($e);
+            $force = (!$error->handler);
+            self::internal_error_handler($e, $force);
         }
     }
 
@@ -38,7 +39,7 @@ class Error {
             $error->debug = true;
             Display::load_error_page(['error'=>$error]);
         }
-        $error->debug = Core::get_config('debug');
+        $error->debug = Config::get_config('debug');
         Display::load_page('error.twig', ['error'=>$error]);
     }
     

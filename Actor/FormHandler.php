@@ -2,21 +2,24 @@
 
 namespace LinkCMS\Actor;
 
-class Form {
+use LinkCMS\Model\Form as FormModel;
+
+class FormHandler {
     var $error;
     var $formData;
-    var $requiredFields;
+    var $formModel;
     var $validated;
 
-    public function __construct($formData) {
+    public function __construct($formData, FormModel $model) {
         $this->formData = $formData;
+        $this->formModel = $model;
         $this->check_required_fields();
     }
 
     private function check_required_fields() {
-        if (isset($this->requiredFields) && count($this->requiredFields) > 0) {
-            foreach ($this->requiredFields as $required) {
-                if (isset($this->formData[$required]) || $this->formData) {
+        if (isset($this->formModel->requiredFields) && count($this->formModel->requiredFields) > 0) {
+            foreach ($this->formModel->requiredFields as $required) {
+                if (isset($this->formData[$required])) {
                     continue;
                 } else {
                     throw new \Exception('Missing required field ' . $required);
@@ -25,9 +28,5 @@ class Form {
         }
         $this->validated = true;
         return true;
-    }
-
-    public static function form_handler(Array $formData) {
-        return new self($formData);
     }
 }

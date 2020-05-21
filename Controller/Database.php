@@ -3,6 +3,7 @@
 namespace LinkCMS\Controller;
 
 use \PDO;
+use LinkCMS\Actor\Config;
 use LinkCMS\Actor\Core;
 
 class Database {
@@ -12,7 +13,7 @@ class Database {
     var $connection;
 
     public function __construct() {
-        $dbInfo = Core::get_config('database');
+        $dbInfo = Config::get_config('database');
         $required = ['dbHost', 'dbName', 'dbPassword', 'dbUser'];
         foreach ($required as $parameter) {
             if (!isset($dbInfo->{$parameter})) {

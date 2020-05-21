@@ -21,7 +21,7 @@ class Menu {
                 throw new \Exception('Menu item with ID "' . $parentSlug . '" does not exist.');
             }
         } else {
-            array_push($this->items, $item);
+            $this->items[$slug] = $item;
             array_push($this->itemSlugs, $item->slug);
         }
     }

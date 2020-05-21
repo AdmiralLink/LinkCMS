@@ -36,13 +36,13 @@ class Display {
         $core = Core::load();
 
         self::register_filter('url', function($url) {
-            $siteUrl = Core::get_config('siteUrl');
+            $siteUrl = Config::get_config('siteUrl');
             return $siteUrl . '/' . $url;
         });
 
         if (count($display->filters) > 0) {
             foreach ($display->filters as $name=>$function) {
-                $filter = new \Twig\TwigFilter($name, $function);
+                $filter = new \Twig\TwigFilter($name, $function, ['needs_context'=>true]);
                 $GLOBALS['linkcmsTwigLoader']->addFilter($filter);
             }
         }
@@ -61,12 +61,13 @@ class Display {
 
         if (!empty($display->functions)) {
             foreach ($display->functions as $param) {
-                $GLOBALS['linkcmsTwigLoader']->addGlobal($param, call_user_func($display->{$param}));
+                $function = new \Twig\TwigFunction($param, $display->{$param}, ['needs_context'=>true]);
+                $GLOBALS['linkcmsTwigLoader']->addFunction($function);
             }
         }
 
         foreach (['siteTitle', 'siteUrl', 'siteDebug'] as $configVar) {
-            $GLOBALS['linkcmsTwigLoader']->addGlobal($configVar, Core::get_config($configVar));
+            $GLOBALS['linkcmsTwigLoader']->addGlobal($configVar, Config::get_config($configVar));
         }
 
         $GLOBALS['linkcmsTwigLoader']->addGlobal('user', User::get_current_user());
@@ -99,7 +100,7 @@ class Display {
         array_push($display->reserved, $name);
         if ($isFunction) {
             array_push($display->functions, $name);
-            $display->{$name} = [$isFunction];
+            $display->{$name} = $value;
         } else {
             array_push($display->variables, $name);
             $display->{$name} = $value;
@@ -149,13 +150,13 @@ class Display {
          */
         $display = Display::load();
 
-        $GLOBALS['linkcmsTwigLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+        $GLOBALS['linkcmsTwigFileLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         if (!empty($display->templateDirectories)) {
             foreach ($display->templateDirectories as $dir) {
-                $GLOBALS['linkcmsTwigLoader']->addPath($dir);          
+                $GLOBALS['linkcmsTwigFileLoader']->addPath($dir);          
             }
         }
-        $GLOBALS['linkcmsTwigLoader'] = new \Twig\Environment($GLOBALS['linkcmsTwigLoader'], []);
+        $GLOBALS['linkcmsTwigLoader'] = new \Twig\Environment($GLOBALS['linkcmsTwigFileLoader'], []);
         Display::add_filters_and_globals();
         self::add_path_info();
         echo $GLOBALS['linkcmsTwigLoader']->render($template, $data);

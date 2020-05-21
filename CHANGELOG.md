@@ -1,3 +1,22 @@
+# 0.6.0
+## ADDED
+- Templates in /macros/forms/{macro}.twig for the forms macros so they can be called dynamically
+- Description to modules template
+- Twig filters and functions now use context (require second variable in declaration)
+## MODIFIED
+- Moved forms macro into "macros" folder
+- Renamed forms macros to /macros/forms.twig
+- Renamed Config::get_value method to Config::get_config
+- Fixed Twig Function adding
+- Separated Twig Environment and Loader variables
+- Error handler fixed when core error is called (forces base error rather than relying on template)
+- Renamed Form Actor to FormHandler
+- Menu now properly registers items so they can get sub_items
+- Fixed the menu template AGAIN
+## REMOVED
+- Core::get_value()
+- $core->configLoaded (Now $core->config->configLoaded)
+
 # 0.5.0
 ## ADDED
 - User actor

@@ -20,7 +20,7 @@ class Config {
         }
     }
 
-    public function get_value($param=false) {
+    public static function get_config($param=false) {
         $config = self::load();
         if ($param) {
             if (isset($config->config->{$param})) {

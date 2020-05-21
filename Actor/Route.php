@@ -79,9 +79,9 @@ class Route {
             global $whoops;
     
             $core = Core::load();
-            if ($core->configLoaded && (Core::get_config('debug') === 'dev')) {
+            if (isset($core->config->configLoaded) && $core->config->configLoaded && (Config::get_config('debug') === 'dev')) {
                 $whoops->handleException($e);
-            } else {
+        } else {
                 Error::handle_error($e);
             }
         });
@@ -97,11 +97,12 @@ class Route {
         global $whoops;
 
         $config = Config::load();
-        if ($config->configLoaded && Core::get_config('debug') === 'dev') {
+        if ($config->configLoaded && Config::get_config('debug') === 'dev') {
             $whoops = new \Whoops\Run;
             $whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
         } else {
+            set_error_Handler(['LinkCMS\Actor\Error', 'handle_error']);
             set_exception_handler(['LinkCMS\Actor\Error', 'handle_error']);
         }
     }

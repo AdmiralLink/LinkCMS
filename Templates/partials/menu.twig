@@ -1,6 +1,6 @@
 {% for menuItem in menu %}
     {% if coloration == 'class' %}
-        {% if pageSlug == menuItem.slug %}
+        {% if menuItem.slug == pageSlug %}
             {% set itemColor = 'currentPage ' %}
         {% elseif menuItem.slug in parentSlugs %} 
             {% set itemColor = 'currentParent ' %}
@@ -8,10 +8,12 @@
             {% set itemColor = '' %}
         {% endif %}
     {% else %}
-        {% if pageSlug == menuItem.slug %}
+        {% if menuItem.slug == pageSlug %}
             {% set itemColor = 't-color-white bg-primary ' %}
-        {% elseif pageSlug in parentSlugs %} 
+        {% elseif menuItem.slug in parentSlugs %} 
             {% set itemColor = 't-color-white bg-primary o-80 ' %}
+        {% else %}
+            {% set itemColor = '' %}
         {% endif %}
     {% endif %}
     <a class="{% if itemColor %}{{ itemColor}}{% endif %}{% if itemClass %}{{ itemClass}} {% endif %}display-block p-4" {% if menuItem.attr %}{% for param,value in menuItem.attr %}data-{{param}}="{{value}}" {% endfor %}{% endif %}data-slug="{{ menuItem.slug }}" href="{{ menuItem.href }}">{{ menuItem.name }}</a>
