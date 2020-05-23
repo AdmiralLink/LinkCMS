@@ -11,6 +11,8 @@ $green: #2f856e
 $darkGreen: #006a4e
 $gray: #ccc
 $darkGray: #aaa
+$offWhite: #efefef
+$ivory: #fefefe
 
 $primary: $blue
 $secondary: $teal
@@ -20,17 +22,19 @@ $success: $green
 $successBg: $darkGreen
 $warning: $orange
 $warningBg: $darkOrange
+$errorMsg: rgba($pink, 0.3)
 $error: $pink
 $errorBg: $darkPink
 $info: $gray
 $infoBg: $darkGray
 
-$colorList: ('gray': $gray, 'darkGray': $darkGray, 'softBlack': rgba(0,0,0,0.25), 'white':'white', 'black':'black', 'primary': $primary, 'secondary': $secondary, 'secondaryAlt': $secondaryBg, 'success': $success, 'error': $error, 'errorAlt': $errorBg, 'warning': $warning, 'warningAlt': $warningBg, 'info': $info, 'infoAlt': $infoBg)
+$colorList: ('gray': $gray, 'darkGray': $darkGray, 'softBlack': rgba(0,0,0,0.25), 'white':'white', 'black':'black', 'primary': $primary, 'secondary': $secondary, 'secondaryAlt': $secondaryBg, 'success': $success, 'error': $error, 'errorAlt': $errorBg, 'errorMsg': $errorMsg, 'warning': $warning, 'warningAlt': $warningBg, 'info': $info, 'infoAlt': $infoBg, 'offWhite': $offWhite, 'ivory': $ivory)
 
 @import 'fonts'
 @import 'buttons'
 @import 'forms'
 @import 'layout'
+@import 'modal'
 
 @import 'lib/quill.bubble'
 @import 'lib/flatpickr'

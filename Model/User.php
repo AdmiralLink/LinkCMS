@@ -5,7 +5,7 @@ namespace LinkCMS\Model;
 use LinkCMS\Actor\Display;
 
 class User {
-    var $accessLevel;
+    var $accessLevel; // Int
     var $email;
     var $id;
     var $isAdmin = false;
@@ -13,7 +13,7 @@ class User {
     var $fullName;
     var $lastName;
     var $passwordHash;
-    var $userLevel;
+    var $userLevel; // String
     var $username;
 
     static $USERLEVELS = [

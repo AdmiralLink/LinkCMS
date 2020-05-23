@@ -47,9 +47,10 @@
 {% endblock %} 
 {% block footerlogo %}{% endblock %}
 {% block addscripts %}
+    <script src="/js/forms.js"></script>
     <script>
         // TODO: Remove jquery, parsley dependencies
-        require(['jquery', 'parsley'], function ($, parsely) {
+        
             function check_validators() {
                 let method = $('select#authenticationMethod').val();
                 $('form').parsley().destroy();
@@ -80,6 +81,5 @@
                     check_validators();
                 });
             });
-        });
     </script>
 {% endblock %}

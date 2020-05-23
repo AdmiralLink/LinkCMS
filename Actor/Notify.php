@@ -10,9 +10,14 @@ class Notify {
         $this->content = $message;
         $this->type = $type;
         if ($json) {
+            Display::header('json');
             print json_encode($this);
             exit();
         }
+    }
+
+    public static function send_message($message, $type="success") {
+        new self($message, $type, true);
     }
 
     public static function throw_error($message) {

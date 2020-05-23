@@ -8,6 +8,8 @@ use LinkCMS\Model\Menu;
 use LinkCMS\Model\User;
 
 class Core {
+    const CACHE_DIR = __DIR__ . '/../Cache';
+    
     var $config;
     var $db;
     var $hooks = [];
@@ -15,7 +17,6 @@ class Core {
     var $menu;
     var $messages = [];
     var $modules;
-    var $routes = [];
 
     public static function add_filter($filterName, $function) {
         /** 
@@ -193,8 +194,9 @@ class Core {
         $GLOBALS['linkcmscore']->config = Config::load();
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
 
-
         $GLOBALS['linkcmscore']->modules = new Module();
+        
+        API::load();
 
         Route::do_routes();
     }

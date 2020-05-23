@@ -9,14 +9,15 @@ body.form
             ul
                 list-style: none
         form, .form
-            .parsley-errors-list.filled
-                margin-top: -10px
-                background: $errorBg
-                list-style: none
-                @extend .m-bottom-10
-                li
-                    @extend .p-4
-                    color: white
+            .has-danger, .ajax-error
+                input
+                    margin-bottom: 0
+                .pristine-error, .ajax-error
+                    padding: 3px 10px
+                    color: $error
+                    border: 2px solid $errorMsg
+                    display: inline-block
+                    margin: 5px 0
             small.hint
                 color: $darkGray
             label

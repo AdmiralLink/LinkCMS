@@ -127,6 +127,14 @@ class Display {
         return true;
     }
 
+    public static function header(String $type) {
+        switch ($type) {
+            case 'json':
+                header('Content-Type: application/json');
+            break;
+        }
+    }
+
     public static function register_filter($name, $function) {
         /**
          * For registering Twig filters

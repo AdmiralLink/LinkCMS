@@ -70,8 +70,11 @@ class Config {
 
     public static function set_config($parameter, $value) {
         $core = self::load();
-
-        $core->config->{$parameter} = $value;
-        self::save_config_file($core->config);
+        if (isset($core->config->{$parameter})) {
+            if ($core->config->{$parameter} !== $value) {
+                $core->config->{$parameter} = $value;
+                self::save_config_file($core->config);
+            }
+        }
     }
 }

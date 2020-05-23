@@ -6,7 +6,9 @@ button, .button
     margin: 10px 0
     cursor: pointer
     text-transform: uppercase
-    letter-spacing: 1px
+    text-decoration: underline
+    @extend .shadow
+    border-radius: 3px
     @each $name,$color in $colorList
         &.#{$name}
             background-color: #{$color}

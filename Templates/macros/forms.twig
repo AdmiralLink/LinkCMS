@@ -13,27 +13,33 @@
 {% macro text(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "text", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "text", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro password(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "password", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "password", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro email(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "email", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "email", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro color(name, value, attributes) %}
   {% from _self import input %}
-  {{ input(name, value, "color", attributes) }}
+  <formset class="form-group">{{ input(name, value, "color", attributes) }}</formset>
 {% endmacro %}
 
 {% macro button(text, class, id, value, attributes) %}
@@ -43,15 +49,19 @@
 {% macro date(name, fancyName, value, attributes) %}
 {% from _self import input %}
 {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "date", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "date", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro file(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "file", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "file", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro hidden(name, fancyName, value, attributes) %}
@@ -59,69 +69,71 @@
   {{ input(name, value, "hidden", attributes) }}
 {% endmacro %}
 
-{% macro month(name, fancyName, value, attributes) %}
-  {% from _self import input %}
-  {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "month", attributes) }}
-{% endmacro %}
-
 {% macro number(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "number", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "number", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro range(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "range", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "range", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro search(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "search", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "search", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro tel(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "tel", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "tel", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro time(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  {{ input(name, value, "time", attributes) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    {{ input(name, value, "time", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro url(name, fancyName, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
   {{ input(name, value, "url", attributes) }}
-{% endmacro %}
-
-{% macro week(name, value, attributes) %}
-  {% from _self import input %}
-  {{ input(name, value, "week", attributes) }}
+  </formset>
 {% endmacro %}
 
 {% macro textarea(name, fancyName, value, attributes) %}
   {% from _self import label %}
-  {{ label(name, fancyName) }}
-  <textarea name="{{ name }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}{% if not attributes.id is defined %} id="{{ name }}"{% endif %}>{{ value|e }}</textarea>
+  <formset class="form-group">
+    {{ label(name, fancyName) }}
+    <textarea name="{{ name }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}{% if not attributes.id is defined %} id="{{ name }}"{% endif %}>{{ value|e }}</textarea>
+  </formset>
 {% endmacro %}
 
 {% macro quill(name, fancyName, value, attributes) %}
   {% from _self import textarea %}
-    <fieldset class="quill textarea">
+    <fieldset class="quill textarea form-group">
         {{ textarea(name, fancyName, value, attributes) }}
     </fieldset>
 {% endmacro %}
@@ -133,12 +145,14 @@
 {% endmacro %}
 
 {% macro select(name, values, value, attributes, fancyName) %}
+    <formset class="form-group">
   {% if fancyName %}<label for="{{name}}">{{fancyName}}</label>{% endif %}
   <select name="{{ name }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}{% if not attributes.id is defined %} id="{{ name }}"{% endif %}>
     {% for key, name in values %}
     <option value="{{ key }}"{% if value == key %} selected="selected"{% endif %}>{{ name }}</option>
     {% endfor %}
   </select>
+  </formset>
 {% endmacro %}
 
 {% macro radio(name, values, value, attributes) %}

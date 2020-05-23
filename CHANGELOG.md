@@ -1,3 +1,22 @@
+# 0.6.1
+## ADDED
+- API class with route registration, though none of it really does anything yet
+- Namespace registration in core (so we don't get conflicting URLs, at least at the top level)
+- Error::UNAUTHORIZED, to be used in API authorization errors
+- API errors now return as json regardless of settings
+- Ajax validation micro-library
+- Display::header()
+- Controller\User::get_all($col)
+- js\utilties.js
+- offWhite and ivory colors
+## MODIFIED
+- Routes has its own global/storage now, rather than depending on Core
+- Moved Whoops error handling out of Route, so now it just calls the Error class
+- set_config only saves the config if it's new, which means we're not hammering with file writes on every page load
+- Consolidated some JS bundles
+## REMOVED
+- RequireJS and associated dependencies. We're now pure vanilla JS
+
 # 0.6.0
 ## ADDED
 - Templates in /macros/forms/{macro}.twig for the forms macros so they can be called dynamically

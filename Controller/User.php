@@ -9,6 +9,20 @@ class User extends Database {
     static $dbTable = 'users';
     static $fields = ['firstName','lastName','username','email','accessLevel','passwordHash'];
 
+    public static function get_all($field) {
+        $db = Core::get_db();
+        if ($field) {
+            $query = $db->connection->query('SELECT ' . $field . ' FROM ' . static::$dbTable);
+            if ($results = $query->fetchAll(\PDO::FETCH_COLUMN, 0)) {
+                return $results;
+            } else {
+                return false;
+            }
+        } else {
+            throw new \Exception('No field found');
+        }
+    }
+
     public static function load_all($orderBy=false) {
         $db = Core::get_db();
         $order = ($orderBy) ? ' ORDERBY ' . $orderBy : '';
