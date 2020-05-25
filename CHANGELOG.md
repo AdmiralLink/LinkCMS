@@ -1,4 +1,4 @@
-# 0.6.1
+# 0.7.0
 ## ADDED
 - API class with route registration, though none of it really does anything yet
 - Namespace registration in core (so we don't get conflicting URLs, at least at the top level)
@@ -8,14 +8,26 @@
 - Display::header()
 - Controller\User::get_all($col)
 - js\utilties.js
-- offWhite and ivory colors
+- errormsg, offWhite and ivory colors
+- set_current_user, userLevels hooks
+- Controller\Database::delete_by
+- Controller\User::load-by and ::save
+- Modal styling
 ## MODIFIED
+- It's a major version bump because we jacked with the default user levels by a factor of 10
+- Input types with validation now wrapped in formset.form-group
 - Routes has its own global/storage now, rather than depending on Core
 - Moved Whoops error handling out of Route, so now it just calls the Error class
 - set_config only saves the config if it's new, which means we're not hammering with file writes on every page load
 - Consolidated some JS bundles
+- JSON-formatted errors are now more smarter, call when they should
+- Forms.js updated to better handle JSON errors
+- UserLevels moved to function in User Actor
+- Fiex Controller\Database::update
+- Changed fancyName to displayLabel in forms.twig
 ## REMOVED
 - RequireJS and associated dependencies. We're now pure vanilla JS
+- Month and week inputs, because seriously?
 
 # 0.6.0
 ## ADDED

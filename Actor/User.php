@@ -32,7 +32,7 @@ class User {
             } else {
                 return false;
             }
-        }
+    }
     }
 
     public static function get_current_user() {
@@ -47,6 +47,17 @@ class User {
         }
     }
 
+    public static function get_user_levels() {
+        $userLevels = [
+            10 => 'Basic',
+            20 => 'Author',
+            30 => 'Subeditor',
+            40 => 'Editor',
+            50 => 'Administrator'
+        ];
+        return Core::do_filter('userLevels', $userLevels);
+    }
+
     public static function is_authorized($userLevel = UserModel::USER_LEVEL_BASIC, $redirect=true) {
         if (self::is_logged_in()) {
             return (self::check_user_level($userLevel));
@@ -57,6 +68,18 @@ class User {
             } else {
                 return false;
             }
+        }
+    }
+
+    public static function register() {
+        Display::register_global('userLevels', ['LinkCMS\Actor\User','get_user_levels']);
+    }
+
+    public static function set_current_user(User $user) {
+        if (Core::has_hook('set_current_user')) {
+            return Core::do_hook('set_current_user'. $user);
+        } else {
+            $_SESSION['user'] = $user;
         }
     }
 }

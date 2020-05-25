@@ -9,6 +9,10 @@ class User extends Database {
     static $dbTable = 'users';
     static $fields = ['firstName','lastName','username','email','accessLevel','passwordHash'];
 
+    public static function delete($userId) {
+        self::delete_by('id', $userId);
+    }
+    
     public static function get_all($field) {
         $db = Core::get_db();
         if ($field) {
@@ -40,11 +44,22 @@ class User extends Database {
     }
 
     public static function load(int $id) {
-        $userData = self::load_by('id', $id);
+        return self::load_by('id', $id);
+    }
+
+    public static function load_by($field, $value) {
+        $userData = parent::load_by($field, $value);
         if ($userData) {
             return new UserModel($userData);
         } else {
             return false;
         }
+    }
+
+    public static function save($object) {
+        if (isset($object->fullName)) {
+            unset($object->fullName);
+        }
+        parent::save($object);
     }
 }

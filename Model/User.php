@@ -2,7 +2,9 @@
 
 namespace LinkCMS\Model;
 
+use LinkCMS\Actor\Core;
 use LinkCMS\Actor\Display;
+use LinkCMS\Actor\User as UserActor;
 
 class User {
     var $accessLevel; // Int
@@ -17,18 +19,18 @@ class User {
     var $username;
 
     static $USERLEVELS = [
-        1 => 'Basic',
-        2 => 'Author',
-        3 => 'Subeditor',
-        4 => 'Editor',
-        5 => 'Administrator'
+        10 => 'Basic',
+        20 => 'Author',
+        30 => 'Subeditor',
+        40 => 'Editor',
+        50 => 'Administrator'
     ];
 
-    const USER_LEVEL_ADMIN = 5;
-    const USER_LEVEL_EDITOR = 4;
-    const USER_LEVEL_SUBEDITOR = 3;
-    const USER_LEVEL_AUTHOR = 2;
-    const USER_LEVEL_BASIC = 1;
+    const USER_LEVEL_ADMIN = 50;
+    const USER_LEVEL_EDITOR = 40;
+    const USER_LEVEL_SUBEDITOR = 30;
+    const USER_LEVEL_AUTHOR = 20;
+    const USER_LEVEL_BASIC = 10;
 
     public function __construct($data) {
         if (is_array($data)) {
@@ -38,8 +40,8 @@ class User {
         } else if (is_object($data)) {
             $this->{$param} = $value;
         }
-        if (!isset($this->fullName)) {
-            $this->fullName = $this->firstName . ' ' . $this->lastName;
+        if (empty($this->fullName)) {
+            $this->set_full_name();
         }
         $this->userLevel = self::get_user_level($this->accessLevel);
         if ($this->userLevel == 'Administrator') {
@@ -48,12 +50,15 @@ class User {
     }
 
     public static function get_user_level(int $level) {
-        if ($level < 5 || $level < 1) {
+        if ($level < 50 || $level < 1) {
             return false;
         } else {
-            return self::$USERLEVELS[$level];
+            $levels = UserActor::get_user_levels();
+            return $levels[$level];
         }
     }
-}
 
-Display::register_global('userLevels', User::$USERLEVELS);
+    public function set_full_name() {
+        $this->fullName = $this->firstName . ' ' . $this->lastName;
+    }
+}

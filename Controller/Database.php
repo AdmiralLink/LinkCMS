@@ -23,6 +23,13 @@ class Database {
         $this->connection = new PDO('mysql:host=' . $dbInfo->dbHost . ';dbname=' . $dbInfo->dbName, $dbInfo->dbUser, $dbInfo->dbPassword);
     }
 
+    public static function delete_by(String $field, $value, $evaluator = '=') {
+        $db = Core::get_db();
+
+        $query = $db->connection->prepare('DELETE FROM ' . static::$dbTable . ' WHERE ' . $field . ' ' . $evaluator . ' :value');
+        $query->execute(['value'=>$value]);
+    }
+
     public static function load_collection_by(String $field, $value, $evaluator='=') {
         $db = Core::get_db();
 
@@ -63,12 +70,12 @@ class Database {
         $updateString = '';
         $update = [];
         foreach ($properties as $field) {
-            $updateString .= $field . '=' . ':' . $field;
+            $updateString .=  ',' . $field . '=' . ':' . $field;
             $update[$field] = $updateObj->{$field};
         }
+        $updateString = substr($updateString, 1);
         $update['id'] = $id;
         $statement = $db->connection->prepare('UPDATE ' . static::$dbTable . ' SET '. $updateString .' WHERE id=:id');
         $statement->execute($update);
-        return true;
     }
 }

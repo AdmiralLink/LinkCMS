@@ -13,7 +13,7 @@ class Error {
         $request = Flight::request();
         http_response_code(404);
         $error = self::load();
-        if (strpos($request->url, '/api') == 0) {
+        if (strpos($request->url, '/api') !== false) {
             Notify::throw_error('No such route exists');
         } else if ($error->handler404) {
             call_user_func($error->handler404);
@@ -28,8 +28,8 @@ class Error {
         $core = Core::load();
         $error = self::load();
         $request = Flight::request();
-        if (strpos($request->url, '/api') == 0) {
-            if ($e->getMessage == self::UNAUTHORIZED) {
+        if (strpos($request->url, '/api') !== false) {
+            if ($e->getMessage() == self::UNAUTHORIZED) {
                 http_response_code(401);
                 Notify::throw_error(self::UNAUTHORIZED);
             } else {

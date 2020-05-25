@@ -10,29 +10,29 @@
   <label for="{{ id }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}>{{ content|e }}</label>
 {% endmacro %}
 
-{% macro text(name, fancyName, value, attributes) %}
+{% macro text(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "text", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro password(name, fancyName, value, attributes) %}
+{% macro password(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "password", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro email(name, fancyName, value, attributes) %}
+{% macro email(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "email", attributes) }}
   </formset>
 {% endmacro %}
@@ -46,107 +46,107 @@
   <button class="button {{ class }}"{% if id is defined and value is defined %} data-{{ id }}="{{ value }}{% endif %}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}>{{ text }}</button>
 {% endmacro %}
 
-{% macro date(name, fancyName, value, attributes) %}
+{% macro date(name, displayLabel, value, attributes) %}
 {% from _self import input %}
 {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "date", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro file(name, fancyName, value, attributes) %}
+{% macro file(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "file", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro hidden(name, fancyName, value, attributes) %}
+{% macro hidden(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {{ input(name, value, "hidden", attributes) }}
 {% endmacro %}
 
-{% macro number(name, fancyName, value, attributes) %}
+{% macro number(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "number", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro range(name, fancyName, value, attributes) %}
+{% macro range(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "range", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro search(name, fancyName, value, attributes) %}
+{% macro search(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "search", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro tel(name, fancyName, value, attributes) %}
+{% macro tel(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "tel", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro time(name, fancyName, value, attributes) %}
+{% macro time(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     {{ input(name, value, "time", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro url(name, fancyName, value, attributes) %}
+{% macro url(name, displayLabel, value, attributes) %}
   {% from _self import input %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
   {{ input(name, value, "url", attributes) }}
   </formset>
 {% endmacro %}
 
-{% macro textarea(name, fancyName, value, attributes) %}
+{% macro textarea(name, displayLabel, value, attributes) %}
   {% from _self import label %}
   <formset class="form-group">
-    {{ label(name, fancyName) }}
+    {{ label(name, displayLabel) }}
     <textarea name="{{ name }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}{% if not attributes.id is defined %} id="{{ name }}"{% endif %}>{{ value|e }}</textarea>
   </formset>
 {% endmacro %}
 
-{% macro quill(name, fancyName, value, attributes) %}
+{% macro quill(name, displayLabel, value, attributes) %}
   {% from _self import textarea %}
     <fieldset class="quill textarea form-group">
-        {{ textarea(name, fancyName, value, attributes) }}
+        {{ textarea(name, displayLabel, value, attributes) }}
     </fieldset>
 {% endmacro %}
 
-{% macro checkbox(name, fancyName, value, id, attributes) %}
+{% macro checkbox(name, displayLabel, value, id, attributes) %}
   <div class="checkbox"><input type="checkbox" name="{{ name }}" id="{{ id|default(name) }}" class="{{ class }}" value="1"{% if value %} checked="checked"{% endif %}{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %} />
   <i class="fas fa-circle"></i><i class="fas fa-check-circle"></i>
-  <label for="{{ name }}" >{{ fancyName }}</label></div>
+  <label for="{{ name }}" >{{ displayLabel }}</label></div>
 {% endmacro %}
 
-{% macro select(name, values, value, attributes, fancyName) %}
+{% macro select(name, values, value, attributes, displayLabel) %}
     <formset class="form-group">
-  {% if fancyName %}<label for="{{name}}">{{fancyName}}</label>{% endif %}
+  {% if displayLabel %}<label for="{{name}}">{{displayLabel}}</label>{% endif %}
   <select name="{{ name }}"{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %}{% if not attributes.id is defined %} id="{{ name }}"{% endif %}>
     {% for key, name in values %}
     <option value="{{ key }}"{% if value == key %} selected="selected"{% endif %}>{{ name }}</option>

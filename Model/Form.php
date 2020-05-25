@@ -8,8 +8,12 @@ class Form {
  
     public function __construct($fields) {
         if (is_array($fields)) {
-            $this->fields = $fields;
-        } else if ($fields) {
+            foreach ($fields as $field) {
+                if (get_class($field) == 'LinkCMS\Model\FormField') {
+                    array_push($this->fields, $field);
+                }
+            }
+        } else if (get_class($fields) == 'LinkCMS\Model\FormField') {
             array_push($this->fields, $fields);
         }
         if (!empty($this->fields)) {
@@ -17,7 +21,7 @@ class Form {
         }
     }
 
-    public function addField(FormField $field) {
+    public function add_field(FormField $field) {
         array_push($this->fields, $field);
         $this->check_for_required_fields();
     }
