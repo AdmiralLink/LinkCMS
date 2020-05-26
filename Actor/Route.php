@@ -65,7 +65,7 @@ class Route {
                     Display::load_page('manage/index.twig');
                 } else {
                     $user = User::get_current_user();
-                    Display::load_page('manage/users/edit/' . $user->username);
+                    Flight::redirect('/manage/users/' . $user->username);
                 }
             } else {
                 Route::add_redirect();

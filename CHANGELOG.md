@@ -1,3 +1,9 @@
+# 0.7.1
+## ADDED
+- Core::VERSION
+## MODIFIED
+- Tweaked redirect route so it went /users/@username instead of /users/edit/@username
+
 # 0.7.0
 ## ADDED
 - API class with route registration, though none of it really does anything yet
