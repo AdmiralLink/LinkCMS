@@ -9,6 +9,7 @@ use LinkCMS\Model\User;
 
 class Core {
     const CACHE_DIR = __DIR__ . '/../Cache';
+    const VERSION = "0.7.2";
     
     var $config;
     var $db;
