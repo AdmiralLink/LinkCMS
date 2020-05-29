@@ -10,8 +10,7 @@ class Notify {
         $this->content = $message;
         $this->type = $type;
         if ($json) {
-            Display::header('json');
-            print json_encode($this);
+            Flight::json($this);
             exit();
         }
     }

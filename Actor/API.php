@@ -66,8 +66,7 @@ class API {
         if (!file_exists($fileLocation)) {
             self::save_routes();    
         }
-        Display::header('json');
-        print json_encode(file_get_contents($fileLocation));   
+        Flight::json(file_get_contents($fileLocation));   
     }
 
     public static function save_routes() {

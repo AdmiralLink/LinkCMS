@@ -189,8 +189,8 @@ class Core {
             $GLOBALS['linkcmsconfig'] = new Config();
         }
         
-        Route::register_handlers();
-
+        Route::register();
+    
         $GLOBALS['linkcmscore']->config = Config::load();
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
 

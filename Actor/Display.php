@@ -129,9 +129,7 @@ class Display {
 
     public static function header(String $type) {
         switch ($type) {
-            case 'json':
-                header('Content-Type: application/json');
-            break;
+            
         }
     }
 
@@ -158,7 +156,7 @@ class Display {
          */
         $display = Display::load();
 
-        $GLOBALS['linkcmsTwigFileLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+        $GLOBALS['linkcmsTwigFileLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../Templates');
         if (!empty($display->templateDirectories)) {
             foreach ($display->templateDirectories as $dir) {
                 $GLOBALS['linkcmsTwigFileLoader']->addPath($dir);          
@@ -173,7 +171,7 @@ class Display {
 
     public static function load_error_page($error) {
         $display = Display::load();
-        $GLOBALS['linkcmsTwigLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+        $GLOBALS['linkcmsTwigLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../Templates');
         if (!empty($display->templateDirectories)) {
             foreach ($display->templateDirectories as $dir) {
                 $GLOBALS['linkcmsTwigLoader']->addPath($dir);          

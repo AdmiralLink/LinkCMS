@@ -102,6 +102,11 @@ class Route {
         return $GLOBALS['linkcmsRoutes'];
     }
 
+    public static function register() {
+        self::register_handlers();
+        self::register_folder_loader();
+    }
+
     public static function register_handlers() {
         global $whoops;
 
@@ -113,6 +118,32 @@ class Route {
         } else {
             set_error_Handler(['LinkCMS\Actor\Error', 'handle_error']);
             set_exception_handler(['LinkCMS\Actor\Error', 'handle_error']);
+        }
+    }
+
+    public static function register_folder_loader() {
+        Flight::map('register_manage_folder', function($sourceDir, $destPath) {
+            self::register_folder_map($sourceDir, $destPath, 'manage');
+        });
+
+        Flight::map('register_public_folder', function($sourceDir, $destPath) {
+            self::register_folder_map($sourceDir, $destPath, 'public');
+        });
+    }
+
+    public function register_folder_map($sourceDir, $destPath, $type) {
+        if (is_dir($sourceDir)) {
+            $frontPath = ($type == 'manage') ? '/manage/' : '';
+            $path = 'GET ' . $frontPath . $destPath . '/@file';
+            Flight::route($path, function($file) use ($sourceDir) {
+                if (file_exists($sourceDir . '/' . $file)) {
+                    print file_get_contents($sourceDir . '/' . $file);
+                } else {
+                    Error::throw('File not found');
+                }
+            });
+        } else {
+            throw new \Exception('Source for '. $type . '/' . $destPath .' is not a directory.');
         }
     }
 

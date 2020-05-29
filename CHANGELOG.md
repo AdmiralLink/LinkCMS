@@ -1,3 +1,11 @@
+# 0.7.1
+## ADDED
+- Route::register
+- Route::register_manage_folder and Route::register_public_folder to allow for self-contained modules
+## MODIFIED
+- Used native Flight::json rather than our customer header
+- (Display) Twigloader now has properly case-sensitive template path
+
 # 0.7.0
 ## ADDED
 - API class with route registration, though none of it really does anything yet
