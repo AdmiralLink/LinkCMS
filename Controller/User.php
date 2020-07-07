@@ -7,7 +7,7 @@ use \LinkCMS\Model\User as UserModel;
 
 class User extends Database {
     static $dbTable = 'users';
-    static $fields = ['firstName','lastName','username','email','accessLevel','passwordHash'];
+    static $fields = ['firstName','lastName','username','email','accessLevel','passwordHash', 'passwordReset', 'passwordResetExpiry'];
 
     public static function delete($userId) {
         self::delete_by('id', $userId);
@@ -57,9 +57,20 @@ class User extends Database {
     }
 
     public static function save($object) {
-        if (isset($object->fullName)) {
-            unset($object->fullName);
+        parent::save(self::strip_for_save($object));
+    }
+
+    public static function strip_for_save($object) {
+        $params = ['fullName', 'isAdmin', 'userLevel'];
+        foreach ($params as $param) {
+            if (isset($object->{$param})) {
+                unset($object->{$param});
+            }
         }
-        parent::save($object);
+        return $object;
+    }
+
+    public static function update($object) {
+        parent::update(self::strip_for_save($object));
     }
 }

@@ -60,10 +60,16 @@ class Database {
         $query->execute($dataToStore);
     }
 
-    public static function update(int $id, $updateObj) {
+    public static function update($updateObj) {
         $db = Core::get_db();
+        $id = false;
         if (isset($updateObj->id)) {
+            $id = $updateObj->id;
             unset($updateObj->id);
+        }
+        if (!$id) {
+            self::save($updateObj);
+            exit();
         }
         $array = get_object_vars($updateObj);
         $properties = array_keys($array);
@@ -74,7 +80,7 @@ class Database {
             $update[$field] = $updateObj->{$field};
         }
         $updateString = substr($updateString, 1);
-        $update['id'] = $id;
+        $update['id'] = intval($id);
         $statement = $db->connection->prepare('UPDATE ' . static::$dbTable . ' SET '. $updateString .' WHERE id=:id');
         $statement->execute($update);
     }

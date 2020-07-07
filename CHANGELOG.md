@@ -1,3 +1,16 @@
+# 0.7.3
+## ADDED
+- Email Actor, phpmailer dependency
+- Base email and email macros templates
+- PasswordReset, PasswordResetExpiry fields to User Model
+- strip_for_save method to user to get rid of non-DB fields before save/update
+- Pristine validator for same-password
+## MODIFIED
+- Display::load_page now takes $print parameter so you can return the page contents (e.g., emails)
+- Database::update() more robust, checks for IDs, kicks out to save if not set
+- Fixed user construct when passing object
+- Fixed hidden field macro so it doesn't ask for a label (because it's hidden)
+
 # 0.7.2
 ## ADDED
 - Route::register

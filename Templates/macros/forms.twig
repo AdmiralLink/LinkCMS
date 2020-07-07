@@ -64,7 +64,7 @@
   </formset>
 {% endmacro %}
 
-{% macro hidden(name, displayLabel, value, attributes) %}
+{% macro hidden(name, value, attributes) %}
   {% from _self import input %}
   {{ input(name, value, "hidden", attributes) }}
 {% endmacro %}

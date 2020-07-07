@@ -147,7 +147,7 @@ class Display {
         }
     }
 
-    public static function load_page($template, array $data=[]) {
+    public static function load_page($template, array $data=[], $print=true) {
         /**
          * Load a core Twig template
          * 
@@ -165,7 +165,11 @@ class Display {
         $GLOBALS['linkcmsTwigLoader'] = new \Twig\Environment($GLOBALS['linkcmsTwigFileLoader'], []);
         Display::add_filters_and_globals();
         self::add_path_info();
-        echo $GLOBALS['linkcmsTwigLoader']->render($template, $data);
+        if ($print) {
+            echo $GLOBALS['linkcmsTwigLoader']->render($template, $data);
+        } else {
+            return $GLOBALS['linkcmsTwigLoader']->render($template, $data);
+        }
         exit();
     }
 

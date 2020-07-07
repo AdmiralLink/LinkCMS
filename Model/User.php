@@ -15,6 +15,8 @@ class User {
     var $fullName;
     var $lastName;
     var $passwordHash;
+    var $passwordReset;
+    var $passwordResetExpiry;
     var $userLevel; // String
     var $username;
 
@@ -38,7 +40,9 @@ class User {
                 $this->{$param} = $value;
             }
         } else if (is_object($data)) {
-            $this->{$param} = $value;
+            foreach (get_object_vars($data) as $param=>$value) {
+                $this->{$param} = $data->{$param};
+            }
         }
         if (empty($this->fullName)) {
             $this->set_full_name();
@@ -48,7 +52,7 @@ class User {
             $this->isAdmin = true;
         }
     }
-
+    
     public static function get_user_level(int $level) {
         if ($level < 50 || $level < 1) {
             return false;
