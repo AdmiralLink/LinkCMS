@@ -1,0 +1,535 @@
+$red: $error
+$green: $primary
+$font: "San Francisco","Helvetica Neue","Helvetica",sans-serif
+
+@mixin imageUploader
+    label.imageUploader
+        display: block
+        background: #eee
+        padding: 15px 10px
+        text-align: center
+        text-decoration: none
+        color: black
+        font-weight: bold
+        cursor: pointer
+        transition: transform 0.4s, box-shadow 0.4s
+        border: 4px dashed #ccc
+        border-radius: 10px
+        &.hovered 
+            transform: scale(1.05)
+            transition: transform 0.4s, box-shadow 0.4s
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35)
+        &.previewing
+            svg, span
+                display: none
+            img.preview
+                display: block
+        svg
+            font-size: 30px
+            margin-bottom: 10px
+        .preview
+            display: none
+            width: auto
+            max-width: 100%
+            max-height: 300px
+            height: auto
+            margin: 10px auto
+        input
+            &[type="file"]
+                width: 0.1px
+                height: 0.1px
+                opacity: 0
+                overflow: hidden
+                position: absolute
+                z-index: -1
+
+@mixin form
+    label
+        font-weight: bold
+        font-size: 14px
+        display: block
+        margin: 10px auto
+        width: 80%
+        input
+            &[type="text"]
+                display: block
+                font-size: 16px
+                padding: 3px
+                margin: 2px 0
+                width: 100%
+    label.checkbox
+        cursor: pointer
+        svg
+            display: none
+            position: relative
+            top: 3px
+            margin-right: 4px
+        input
+            display: none
+            ~ svg
+                font-size: 20px
+                &:first-of-type
+                    display: inline-block
+                    color: #666
+            &:checked ~ svg
+                &:first-of-type
+                    display: none
+                &:last-of-type
+                    display: inline-block
+                    color: $green
+
+.sr-only
+    width: 1px
+    height: 1px
+    overflow: hidden
+    text-indent: -10000px
+fieldset
+    border: 0
+    margin: 0
+    padding: 0
+.progressBar
+    width: 90%
+    margin: 20px auto
+    height: 25px
+    position: relative
+    &:before
+        content: 'Uploading ...'
+        text-transform: uppercase
+        position: absolute
+        display: block
+        color: #666
+        left: 50%
+        top: 50%
+        font-size: 20px
+        transform: translate(-50%, -50%)
+    .bar
+        height: 100%
+        width: 0
+        transition: width 0.2s, background 0.3s
+        background: #666
+    &.success
+        &:before
+            content: 'Uploaded!'
+            color: white
+        .bar
+            background: $green
+    &.failure
+        &:before
+            content: 'Upload failed'  
+            color: white
+        .bar
+            background: $red
+section .hat-editor
+    box-sizing: border-box
+    font-size: 18px
+    line-height: 140%
+    * 
+        box-sizing: border-box
+        font-size: 18px
+        line-height: 140%
+    background: white
+    padding: 5px
+    font-family: $font
+    button
+      display: initial
+      padding: 2px 5px
+      border: initial
+      margin: initial
+      text-transform: initial
+      text-decoration: initial
+      border-radius: initial
+      box-shadow: initial
+    #newBlockContainer
+        width: 200px
+        margin-left: calc(100% - 200px)
+        #addBlock
+            display: block
+            background: white
+            width: 100%
+            cursor: pointer
+            text-align: center
+            color: #757575
+            border: 1px solid #4b3434
+            border-radius: 10px
+            display: block
+            padding: 10px
+            text-decoration: none
+            text-transform: uppercase
+            margin: 15px 0 5px
+            position: relative
+            z-index: 251
+            span
+                background: #aaa
+                color: white
+                display: inline-block
+                height: 25px
+                font-size: 20px
+                width: 25px
+                border-radius: 50%
+        div.blockChoices
+            position: relative
+            top: -5px
+            transform: scaleY(0)
+            transform-origin: top center
+            transition: transform 0.4s
+            z-index: 250
+            width: 190px
+            margin-left: 5px
+            box-shadow: 0 0 3px rgba(0,0,0,0.3)
+            &.show
+                transition: transform 0.4s
+                transform: scaleY(1)
+            button
+                cursor: pointer
+                width: 100%
+                display: block
+                padding: 10px
+                border-radius: 2px
+                background: white
+                border: 1px solid rgba(0,0,0,0.3)
+                color: #999
+                display: block
+                text-align: center
+                transition: all 0.4s
+                position: relative
+                span
+                    font-size: 14px
+                &:hover
+                    transition: all 0.4s
+                    color: black
+                    border-color: rgba(0,0,0,1)
+                svg
+                    position: absolute
+                    left: 10px
+                    top: 15px
+    .block
+        box-shadow: 0 0 4px rgba(0,0,0,0.35)
+        margin: 10px 0
+        position: relative
+        display: grid
+        grid-template-columns: 30px auto 30px
+        border-radius: 10px
+        transition: margin 1s cubic-bezier(0.480, -0.335, 0.535, 1.315)
+        transition-timing-function: cubic-bezier(0.480, -0.335, 0.535, 1.315)
+        @media(prefers-reduced-motion)
+            transition: none
+            transition-timing-function: init
+        .mechanicsContainer
+            max-height: 0
+            overflow: hidden
+            transition: max-height 0.8s cubic-bezier(0.480, -0.335, 0.535, 1.315)
+            transition-timing-function: cubic-bezier(0.480, -0.335, 0.535, 1.315)
+            width: calc( 100% - 70px)
+            position: absolute
+            bottom: 0
+            left: 50%
+            transform: translate(-50%, 100%)
+            background: #ccc
+            height: auto
+            z-index: 1
+            @media(prefers-reduced-motion)
+                transition: none
+            div
+                padding: 30px 20px 25px
+                display: none
+                transition: opacity 0.4s
+                @include form
+                &.show
+                    display: block      
+                .closeBtn
+                    display: block
+                    margin: 0 auto
+        &.showMechanics
+            transition: margin 0.8s cubic-bezier(0.480, -0.335, 0.535, 1.315)
+            @media(prefers-reduced-motion)
+                transition: none
+            .mechanicsContainer
+                max-height: 1000px
+                transition: max-height 0.8s cubic-bezier(0.480, -0.335, 0.535, 1.315), bottom 0.4s
+                @media(prefers-reduced-motion)
+                    transition: none
+                &.switch
+                    bottom: 25px
+                    transition: max-height 0.8s cubic-bezier(0.480, -0.335, 0.535, 1.315), bottom 0.4s
+                    @media(prefers-reduced-motion)
+                        transition: none
+                    div
+                        transition: opacity 0.4s
+                        opacity: 0.2
+                        @media(prefers-reduced-motion)
+                            transition: none
+                            opacity: 0
+        &.moving-down
+            transition: transform 0.3s
+            transform: translateY(100%)
+        &.moving-up
+            transition: transform 0.3s
+            transform: translateY(-100%)
+        div[aria-label="Block Controls"]
+            display: grid
+            grid-template-rows: 30px auto 30px
+            button
+                border: 0
+                border-right: 1px solid rgba(0,0,0,0.1)
+                &:first-of-type
+                    border-bottom: 1px solid rgba(0,0,0,0.3) 
+                    border-top-left-radius: 10px
+                &:last-of-type
+                    border-top: 1px solid rgba(0,0,0,0.3)
+                    border-bottom-left-radius: 10px
+                background: #eee
+                cursor: pointer
+                &:nth-of-type(2)
+                    cursor: grab
+                &[disabled]
+                    cursor: not-allowed
+        div[aria-label="Block settings"]
+            border-left: 1px solid rgba(0,0,0,0.1)
+            button
+                border: 0
+                width: 31px
+                height: 31px
+                transition: background 0.4s, color 0.4s
+                cursor: pointer
+                &.active
+                    background: #4b0000
+                    color: white
+                    transition: background 0.4s, color 0.4s
+                svg
+                    font-size: 12px
+                &.deleteBtn
+                    color: white
+                    border-top-right-radius: 10px
+                    background: $red
+                    cursor: pointer
+                &:disabled
+                    &:focus
+                        border: 2px dashed #4b0000
+                    cursor: not-allowed
+                    background: #DDD !important
+        a.settings
+            background-color: #999
+            padding-left: 3px
+            display: block
+            cursor: pointer
+            position: relative
+            svg
+                color: white
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+        &.code
+            .codespace
+                display: block
+                background: #eee
+                margin: 5px
+                border: 1px solid rgba(0,0,0,0.5)
+                min-height: 80px
+                padding: 5px
+                width: calc(100% - 10px)
+                font-family: monospace
+                resize: vertical
+        &.image
+            @include imageUploader
+            @include form
+            img.chosen
+                width: 80%
+                max-width: 800px
+                margin: 0 auto 20px
+                display: block
+            label.imageUploader
+                width: 80%
+                max-width: 500px
+                margin: 15px auto
+            div.uploaded
+                label.imageUploader
+                    display: none
+            .removeBtn
+                background: $red
+                color: white
+                margin: 10px auto
+                display: block
+                text-align: center
+                border-color: white
+                border-radius: 7px
+                padding: 7px 12px
+                cursor: pointer
+                svg
+                    margin-right: 10px
+                &.hide
+                    display: none
+        &.paragraph
+            .toolbar
+                background: white
+                vertical-align: middle
+                button
+                    font-size: 19px
+                    background: white
+                    border-left: 0
+                    border-top: 0
+                    border-bottom: 0
+                    border-right: 1px solid rgba(0,0,0,0.3)
+                    color: #777
+                    cursor: pointer
+                    &:hover
+                        color: #333
+                    &.active
+                        color: blue
+                    &.textBtn
+                        padding: 0px 3px
+                        span
+                            font-size: 10px
+                            text-transform: uppercase
+                            padding: 3px 5px
+                            font-weight: bold
+                            top: -3px
+                            position: relative
+                            margin-bottom: -4px
+                    &[disabled]
+                        color: #ccc
+                        cursor: not-allowed
+            position: relative
+            .contentSection
+                position: relative
+                z-index: 2
+                .contentContainer
+                    position: relative
+                    transform-style: perserve-3d
+                    div[contenteditable="true"]
+                        min-height: 100px
+                        backface-visibility: hidden
+                        -webkit-backface-visibility: hidden
+                        position: relative
+                        padding: 10px
+                        width: 100%
+                        transition: transform 0.6s
+                        @media(prefers-reduced-motion)
+                            transition: none
+                        z-index: 1
+                        transform-origin: center
+                        transform: rotateX(0deg)
+                        background: white
+                        &.editContainer
+                            border-top: solid 1px #ddd
+                            > *, blockquote, pre
+                                position: relative
+                                &:before
+                                    text-transform: uppercase
+                                    color: #999
+                                    font-size: 8px
+                                    position: absolute
+                                    left: -7px
+                                    top: 62%
+                                    transform: translateY(-50%)
+                            h1, h2, h3, h4, p
+                                padding: 0
+                                padding-left: 5px
+                            h1, h2, h3, h4
+                                margin: 4px 0
+                            h1
+                                font-size: 30px
+                            > h1:before
+                                content: 'h1'
+                            h2
+                                font-size: 24px
+                            > h2:before
+                                content: 'h2'
+                            h3
+                                font-size: 20px
+                            > h3:before
+                                content: 'h3'
+                            h4
+                                font-size: 18px
+                            > h4:before
+                                content: 'h4'
+                            p
+                                margin: 2px 0
+                            > p:before
+                                content: 'p'
+                            img
+                                max-width: 100%
+                        &.htmlView
+                            background: #eee
+                            font-family: monospace
+                            p
+                                margin: 0
+                        &.flip
+                            position: absolute
+                            top: 0
+                            left: 0
+                            transform: rotateX(-180deg)
+.miniModal-background
+    position: fixed
+    left: 0
+    top: 0
+    width: 100vw
+    height: 100vh
+    background: rgba(0,0,0,0.35)
+    z-index: 299
+    opacity: 0
+    transition: opacity 0.3s
+    &.super
+        z-index: 998
+    &.show
+        opacity: 1
+        transition: opacity 0.4s
+.miniModal-container
+    *
+        box-sizing: border-box
+    font-family: "San Francisco","Helvetica Neue","Helvetica",sans-serif
+    background: white
+    width: 80%
+    max-width: 500px
+    top: 50%
+    left: 50%
+    transform: translate(-50%,-50%)
+    position: fixed
+    z-index: 300
+    opacity: 0
+    transition: opacity 0.3s
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.6)
+    &.super
+        z-index: 999
+    div.error
+        text-align: center
+        svg
+            color: $red
+            font-size: 45px
+            margin-bottom: 15px
+    div.imageUploadContainer
+        @include imageUploader
+    .closeBtn
+        box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2)
+        background: $red
+        color: white
+        border: none
+        border-radius: 50%
+        padding: 5px 6px
+        position: absolute
+        right: -12px
+        top: -12px
+        cursor: pointer
+    &.show
+        opacity: 1
+        transition: opacity 0.55s
+    .modal-content
+        padding: 20px
+        @include form
+    .modal-buttons
+        padding: 10px
+        display: flex
+        justify-content: space-between
+        button
+            border-radius: 3px
+            padding: 5px 10px
+            font-size: 16px
+            background: #ccc
+            border: 0
+            margin: 0 auto
+            &.btnConfirm
+                background: $green
+                color: white
+            &.deleteBtn
+                background: $red
+                color: white

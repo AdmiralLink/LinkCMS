@@ -9,7 +9,17 @@ button, .button
     text-decoration: underline
     @extend .shadow
     border-radius: 3px
+    &.stack
+        display: flex
+        span
+            text-align: left
+            margin-left: 4px
     @each $name,$color in $colorList
         &.#{$name}
             background-color: #{$color}
             color: white
+            &.inverse
+                background-color: #eee
+                color: #{$color}
+    &.info.inverse
+        color: #666

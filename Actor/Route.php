@@ -6,6 +6,7 @@ use \Flight;
 use LinkCMS\Model\User as UserModel;
 
 class Route {
+    var $manageNamespaces = ['modules', 'users'];
     var $namespaces = ['manage'];
     var $routes = [];
 
@@ -90,12 +91,19 @@ class Route {
         Flight::start();        
     }
 
-    public static function is_namespace_free(String $namespace) {
+    public static function is_namespace_free(String $namespace, $type=false) {
+        /**
+         * Check to see if a given namespace is being used,
+         * */
         $routes = self::load();
-        return (!in_array($namespace, $routes->namespaces));
+        $to_check = ($type == 'manage') ? $routes->manageNamespaces : $routes->namespaces;
+        return (!in_array($namespace, $to_check));
     }
 
     public static function load() {
+        /**
+         * Loader function
+         */
         if (!isset($GLOBALS['linkcmsRoutes'])) {
             $GLOBALS['linkcmsRoutes'] = new self();
         }
@@ -103,11 +111,20 @@ class Route {
     }
 
     public static function register() {
+        /**
+         * Registration function called in Core
+         * 
+         * System-only
+         */
         self::register_handlers();
-        self::register_folder_loader();
     }
 
     public static function register_handlers() {
+        /**
+         * Register error and exception handlers based on the value of "debug" in config
+         * 
+         * System-only
+         */
         global $whoops;
 
         $config = Config::load();
@@ -121,17 +138,10 @@ class Route {
         }
     }
 
-    public static function register_folder_loader() {
-        Flight::map('register_manage_folder', function($sourceDir, $destPath) {
-            self::register_folder_map($sourceDir, $destPath, 'manage');
-        });
-
-        Flight::map('register_public_folder', function($sourceDir, $destPath) {
-            self::register_folder_map($sourceDir, $destPath, 'public');
-        });
-    }
-
-    public function register_folder_map($sourceDir, $destPath, $type) {
+    public static function register_folder_map($sourceDir, $destPath, $type='manage') {
+        /**
+         * A function that allows you to expose a directory's contents to the web. Most likely used to expose assets in a module.
+         */
         if (is_dir($sourceDir)) {
             $frontPath = ($type == 'manage') ? '/manage/' : '';
             $path = 'GET ' . $frontPath . $destPath . '/@file';
@@ -139,7 +149,7 @@ class Route {
                 if (file_exists($sourceDir . '/' . $file)) {
                     print file_get_contents($sourceDir . '/' . $file);
                 } else {
-                    Error::throw('File not found');
+                    throw new \Exception('File not found');
                 }
             });
         } else {
@@ -148,10 +158,14 @@ class Route {
     }
 
 
-    public static function register_namespace(String $namespace) {
+    public static function register_namespace(String $namespace, $type=false) {
+        /**
+         * Reserve a top-level namespace for your module to avoid collisions
+         */
         $routes = self::load();
-        if (self::is_namespace_free($namespace, $routes->namespaces)) {
-            array_push($routes->namespaces, $namespace);
+        $existingNS = ($type == 'manage') ? $routes->manageNamespaces : $routes->namespaces;
+        if (self::is_namespace_free($namespace, $type)) {
+            array_push($existingNS, $namespace);
         } else {
             throw new \Exception('/' . $namespace . ' already declared.');
         }

@@ -40,15 +40,15 @@ var AjaxValidator = function(formElement, pristine=false) {
                             if (response.data.type == 'success') {
                                 external.change_field(fieldId, response.data.content);
                             } else {
-                                Notify.show_error('Validation for ' + fieldId + 'threw an error. Check your code.');
+                                new ErrorModal('Validation for ' + fieldId + 'threw an error. Check your code.');
                             }
                         })
                         .catch(function(response) {
                             try {
                                 jsonMessage = JSON.parse(response.responseText);
-                                Notify.show_error(jsonMessage.content);
+                                new ErrorModal(jsonMessage.content);
                             } catch (e) {
-                                Notify.show_error(error.responseText);
+                                new ErrorModal(error.responseText);
                             }
                         });
                 });

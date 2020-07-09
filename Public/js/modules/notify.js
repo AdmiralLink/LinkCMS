@@ -1,47 +1,220 @@
-/* Micromodal | @license MIT | https://github.com/ghosh/Micromodal */
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).MicroModal=t()}(this,(function(){"use strict";function e(e,t){for(var o=0;o<t.length;o++){var n=t[o];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function t(e){return function(e){if(Array.isArray(e))return o(e)}(e)||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}(e)||function(e,t){if(!e)return;if("string"==typeof e)return o(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);"Object"===n&&e.constructor&&(n=e.constructor.name);if("Map"===n||"Set"===n)return Array.from(n);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return o(e,t)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function o(e,t){(null==t||t>e.length)&&(t=e.length);for(var o=0,n=new Array(t);o<t;o++)n[o]=e[o];return n}var n,i,a,r,s,l=(n=["a[href]","area[href]",'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',"select:not([disabled]):not([aria-hidden])","textarea:not([disabled]):not([aria-hidden])","button:not([disabled]):not([aria-hidden])","iframe","object","embed","[contenteditable]",'[tabindex]:not([tabindex^="-"])'],i=function(){function o(e){var n=e.targetModal,i=e.triggers,a=void 0===i?[]:i,r=e.onShow,s=void 0===r?function(){}:r,l=e.onClose,c=void 0===l?function(){}:l,d=e.openTrigger,u=void 0===d?"data-micromodal-trigger":d,f=e.closeTrigger,h=void 0===f?"data-micromodal-close":f,v=e.openClass,m=void 0===v?"is-open":v,g=e.disableScroll,b=void 0!==g&&g,y=e.disableFocus,p=void 0!==y&&y,w=e.awaitCloseAnimation,E=void 0!==w&&w,k=e.awaitOpenAnimation,M=void 0!==k&&k,C=e.debugMode,A=void 0!==C&&C;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,o),this.modal=document.getElementById(n),this.config={debugMode:A,disableScroll:b,openTrigger:u,closeTrigger:h,openClass:m,onShow:s,onClose:c,awaitCloseAnimation:E,awaitOpenAnimation:M,disableFocus:p},a.length>0&&this.registerTriggers.apply(this,t(a)),this.onClick=this.onClick.bind(this),this.onKeydown=this.onKeydown.bind(this)}var i,a,r;return i=o,(a=[{key:"registerTriggers",value:function(){for(var e=this,t=arguments.length,o=new Array(t),n=0;n<t;n++)o[n]=arguments[n];o.filter(Boolean).forEach((function(t){t.addEventListener("click",(function(t){return e.showModal(t)}))}))}},{key:"showModal",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;if(this.activeElement=document.activeElement,this.modal.setAttribute("aria-hidden","false"),this.modal.classList.add(this.config.openClass),this.scrollBehaviour("disable"),this.addEventListeners(),this.config.awaitOpenAnimation){var o=function t(){e.modal.removeEventListener("animationend",t,!1),e.setFocusToFirstNode()};this.modal.addEventListener("animationend",o,!1)}else this.setFocusToFirstNode();this.config.onShow(this.modal,this.activeElement,t)}},{key:"closeModal",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,t=this.modal;if(this.modal.setAttribute("aria-hidden","true"),this.removeEventListeners(),this.scrollBehaviour("enable"),this.activeElement&&this.activeElement.focus&&this.activeElement.focus(),this.config.onClose(this.modal,this.activeElement,e),this.config.awaitCloseAnimation){var o=this.config.openClass;this.modal.addEventListener("animationend",(function e(){t.classList.remove(o),t.removeEventListener("animationend",e,!1)}),!1)}else t.classList.remove(this.config.openClass)}},{key:"closeModalById",value:function(e){this.modal=document.getElementById(e),this.modal&&this.closeModal()}},{key:"scrollBehaviour",value:function(e){if(this.config.disableScroll){var t=document.querySelector("body");switch(e){case"enable":Object.assign(t.style,{overflow:""});break;case"disable":Object.assign(t.style,{overflow:"hidden"})}}}},{key:"addEventListeners",value:function(){this.modal.addEventListener("touchstart",this.onClick),this.modal.addEventListener("click",this.onClick),document.addEventListener("keydown",this.onKeydown)}},{key:"removeEventListeners",value:function(){this.modal.removeEventListener("touchstart",this.onClick),this.modal.removeEventListener("click",this.onClick),document.removeEventListener("keydown",this.onKeydown)}},{key:"onClick",value:function(e){e.target.hasAttribute(this.config.closeTrigger)&&this.closeModal(e)}},{key:"onKeydown",value:function(e){27===e.keyCode&&this.closeModal(e),9===e.keyCode&&this.retainFocus(e)}},{key:"getFocusableNodes",value:function(){var e=this.modal.querySelectorAll(n);return Array.apply(void 0,t(e))}},{key:"setFocusToFirstNode",value:function(){var e=this;if(!this.config.disableFocus){var t=this.getFocusableNodes();if(0!==t.length){var o=t.filter((function(t){return!t.hasAttribute(e.config.closeTrigger)}));o.length>0&&o[0].focus(),0===o.length&&t[0].focus()}}}},{key:"retainFocus",value:function(e){var t=this.getFocusableNodes();if(0!==t.length)if(t=t.filter((function(e){return null!==e.offsetParent})),this.modal.contains(document.activeElement)){var o=t.indexOf(document.activeElement);e.shiftKey&&0===o&&(t[t.length-1].focus(),e.preventDefault()),!e.shiftKey&&t.length>0&&o===t.length-1&&(t[0].focus(),e.preventDefault())}else t[0].focus()}}])&&e(i.prototype,a),r&&e(i,r),o}(),a=null,r=function(e){if(!document.getElementById(e))return console.warn("MicroModal: ❗Seems like you have missed %c'".concat(e,"'"),"background-color: #f8f9fa;color: #50596c;font-weight: bold;","ID somewhere in your code. Refer example below to resolve it."),console.warn("%cExample:","background-color: #f8f9fa;color: #50596c;font-weight: bold;",'<div class="modal" id="'.concat(e,'"></div>')),!1},s=function(e,t){if(function(e){e.length<=0&&(console.warn("MicroModal: ❗Please specify at least one %c'micromodal-trigger'","background-color: #f8f9fa;color: #50596c;font-weight: bold;","data attribute."),console.warn("%cExample:","background-color: #f8f9fa;color: #50596c;font-weight: bold;",'<a href="#" data-micromodal-trigger="my-modal"></a>'))}(e),!t)return!0;for(var o in t)r(o);return!0},{init:function(e){var o=Object.assign({},{openTrigger:"data-micromodal-trigger"},e),n=t(document.querySelectorAll("[".concat(o.openTrigger,"]"))),r=function(e,t){var o=[];return e.forEach((function(e){var n=e.attributes[t].value;void 0===o[n]&&(o[n]=[]),o[n].push(e)})),o}(n,o.openTrigger);if(!0!==o.debugMode||!1!==s(n,r))for(var l in r){var c=r[l];o.targetModal=l,o.triggers=t(c),a=new i(o)}},show:function(e,t){var o=t||{};o.targetModal=e,!0===o.debugMode&&!1===r(e)||(a&&a.removeEventListeners(),(a=new i(o)).showModal())},close:function(e){e?a.closeModalById(e):a.closeModal()}});return window.MicroModal=l,l}));
-
-let Notify = function() {
-    var ModalElement = document.createElement('div');
-    ModalElement.id = 'modal';
-    ModalElement.classList = 'micromodal-slide'
-    ModalElement.setAttribute('aria-hidden', true);
-    ModalElement.innerHTML = '<div tabindex="-1" data-micromodal-close><div class="t-center box" role="dialog" aria-model="true" aria-labelledby="modalTitle"><header class="p-top-15 p-left-10 p-right-10"><h2 id="modalTitle"></h2></header><div class="p-15" id="modalContent"></div><footer class="t-right m-right-10 m-bottom-5"><button class="pos-absolute" aria-label="Close modal" data-micromodal-close>Close <i class="fas fa-times-circle"></i></button></footer></div></div></div>';
-    document.body.appendChild(ModalElement);
-    var display = function(type, message, paragraph=true) {
-        var header = document.getElementById('modalTitle');
-        switch (type) {
-            case 'error':
-                header.classList = 't-color-error';
-                header.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-                break;
-            case 'info':
-                header.classList = 't-color-info';
-                header.innerHTML = '<i class="fas fa-info-circle"></i> Info';
-                break;
-            case 'success':
-                header.classList = 't-color-success';
-                header.innerHTML = '<i class="fas fa-check-circle"></i> Success';
-                break;
-        }
-        if (paragraph) {
-            paragraph = document.createElement('p');
-            paragraph.innerText = message;
-            message = paragraph.outerHTML;
-        }
-        document.getElementById('modalContent').innerHTML= message;
-        MicroModal.show('modal');
-    };
-    var external = {
-        saved: function() {
-            display('success', 'Saved!');
-        },
-        show_error: function(message) {
-            display('error', message);
-        },
-        show_message: function(message, type='info',paragraph=true) {
-            display(type, message, paragraph);
+class MiniModal {
+    constructor(content, childClass=false) {
+        this.confirmed = false;
+        if (!childClass) {
+            return this.constructModal(content);
         }
     }
-    return external;
-}();
+
+    addClickHandlers() {
+        let modal = this;
+        if (this.options.closeOnBackgroundClick) {
+            this.backgroundDiv.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.close();
+            });
+        }
+        if (this.options.closeX) {
+            this.closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.close();
+            });
+        }
+        if (!this.options.noButtons) {
+            if (this.options.confirm) {
+                this.cancelBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.close();        
+                });
+            }
+            this.confirmBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.confirm();
+            });
+        }
+        this.modalContainer.addEventListener('keydown', function(e) {
+            let option = this.options;
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                if (modal.options.enterConfirms) {
+                    modal.confirm();
+                }
+            }
+        });
+    }
+
+    addKeyboardHandlers() {
+        let modal = this;
+        this.modalContainer.addEventListener('keydown', function(e) {
+            if (e.which == 27) {
+                e.preventDefault();
+                e.stopPropagation();
+                modal.close();
+            }
+        });
+    }
+
+    buildOptions(content) {
+        this.getDefaultOptions();
+        if (typeof(content) == 'string') {
+            this.options.content = content;
+        } else {
+            for (let [key,value] of Object.entries(content)) {
+                this.options[key] = value;
+            }
+        }
+    }
+
+    buildModal() {
+        this.backgroundDiv = new DomEl('div.miniModal-background');
+        this.modalContainer = new DomEl('div.miniModal-container');
+        if (this.options.modalClass) {
+            if (typeof(this.options.modalClass) == 'string') {
+                this.options.modalClass = [this.options.modalClass];
+            }
+            this.options.modalClass.forEach(function(className) {
+                this.backgroundDiv.classList.add(className);
+                this.modalContainer.classList.add(className);
+            });
+        }
+        this.header = new DomEl('div.modal-header');
+        if (this.options.header) {
+            let h2 = new DomEl('h2');
+            h2.text = this.options.header;
+            this.header.append(h2);
+        }
+        if (this.options.closeX) {
+            this.closeBtn = new DomButton('Close modal', 'times-circle', 'closeBtn');
+            this.header.append(this.closeBtn);
+        }
+        this.modalContainer.append(this.header);
+        this.modalContent = new DomEl('div.modal-content');
+        if (this.options.contentType == 'text') {
+            this.modalContent.innerText = this.options.content;
+        } else if (this.options.contentType == 'node') {
+            this.modalContent.append(this.options.content);
+        } else {
+            this.modalContent.innerHTML = this.options.content;
+        }
+        this.modalContainer.append(this.modalContent);
+        if (!this.options.noButtons) {
+            let buttonBar = new DomEl('div.modal-buttons');
+            if (this.options.confirm) {
+                this.cancelBtn = new DomButton(this.options.cancelButtonTitle, false, this.options.cancelButtonClass, this.options.cancelButtonText);
+                buttonBar.append(this.cancelBtn);
+            } else {
+                buttonBar.style.textAlign = 'center';
+            }
+            this.confirmBtn = new DomButton(this.options.confirmButtonTitle, false, this.options.confirmButtonClass, this.options.confirmButtonText);
+            buttonBar.append(this.confirmBtn);
+            this.modalContainer.append(buttonBar);
+        }
+    }
+
+    close() {
+        if (this.options.confirm && !this.confirmed) {
+            this.modalContainer.dispatchEvent(new Event('canceled'));
+        } else {
+            this.modalContainer.dispatchEvent(new Event('closed'));
+        }
+        this.backgroundDiv.classList.remove('show');
+        this.modalContainer.classList.remove('show');
+        let modal = this;
+        setTimeout(function() {
+            modal.backgroundDiv.remove();
+            modal.modalContainer.remove();
+        }, 750);
+    }
+
+    confirm() {
+        if (this.options.confirm) {
+            this.modalContainer.dispatchEvent(new Event('confirmed'));
+            this.confirmed = true;
+        }
+        this.close();
+    }
+
+    constructModal(content) {
+        this.buildOptions(content);
+        this.buildModal();
+        this.addClickHandlers();
+        this.addKeyboardHandlers();
+        this.show();
+        if (this.options.returnObject) {
+            return this;
+        } else {
+            return this.modalContainer;
+        }
+    }
+
+    getDefaultOptions() {
+        this.options = {
+            cancelButtonClass: 'btnCancel',
+            cancelButtonText: 'Cancel',
+            cancelButtonTitle: 'Cancel action',
+            confirmButtonClass: 'btnConfirm',
+            confirmButtonText: 'OK',
+            confirmButtonTitle: 'Proceed with action',
+            closeOnBackgroundClick: true,
+            closeX: true,
+            confirm: false,
+            content: false,
+            contentType: 'text',
+            enterConfirms: true,
+            focusTarget: false,
+            header: false,
+            modalClass: false,
+            noButtons: false,
+            returnObject: false
+        };
+    }
+
+    show() {
+        document.body.append(this.backgroundDiv);
+        document.body.append(this.modalContainer);
+        this.backgroundDiv.classList.add('show');
+        this.modalContainer.classList.add('show');
+        if (this.options.focusTarget) {
+            this.options.focusTarget.focus();
+        } else {
+            this.modalContent.focus();
+        }
+    }
+}
+
+class ErrorModal extends MiniModal {
+    constructor(errorMessage) {
+        let errorDiv = new DomEl('div.error');
+        errorDiv.append(new DomEl('i.fas.fa-exclamation-circle'));
+        errorDiv.append(new DomEl('br'));
+        errorDiv.append(new DomEl('p').innerText = errorMessage);
+        super({
+            closeX: false,
+            confirmButtonClass: false,
+            contentType: 'node',
+            content: errorDiv,
+            focusTarget: errorDiv,
+            header: 'Error',
+        });
+    }
+}
+
+class WorkingModal extends MiniModal {
+    constructor(message) {
+        let div = new DomEl('div.t-center');
+        div.append(new DomEl('i.fas.fa-hourglass.fa-spin'));
+        div.append(new DomEl('br'));
+        div.append(new DomEl('p').innerText = message);
+        super({
+            closeX: false,
+            closeOnBackgroundClick: false,
+            confirmButtonClass: false,
+            contentType: 'node',
+            content: div,
+            focusTarget: div,
+            header: 'Please wait',
+            noButtons: true,
+            returnObject: true
+        });
+    }
+}

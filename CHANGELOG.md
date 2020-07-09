@@ -1,3 +1,19 @@
+# 0.8.0
+## ADDED
+- Started Hat integration, added Hat.js and CSS
+- Parsed out ajax, dom and image from Hat
+- DatePicker, DatePickerModal
+- WorkingModal (for loading)
+- Inverse buttons, datepicker CSS
+- Notify.js to base
+## MODIFIED
+- Swapped out Notify/MicroModal with MiniModal from Hat
+- Content now has different look for save/publish buttons 
+- Fixed button macro in forms.twig
+- Fixed Route::register_folder_map
+## REMOVED
+- Flatpickr css
+
 # 0.7.3
 ## ADDED
 - Email Actor, phpmailer dependency
