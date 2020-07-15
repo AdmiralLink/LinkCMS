@@ -3,6 +3,7 @@
 namespace LinkCMS\Actor;
 
 use \Flight;
+use LinkCMS\Model\User as UserModel;
 
 class Module {
     const MODULES_DIR = __DIR__ . '/../Modules/';
@@ -28,9 +29,11 @@ class Module {
 
     public static function add_routes() {
         Flight::route('GET /manage/modules', function() {
-            $core = Core::load();
-            $core->modules->load_modules_from_disk();
-            Display::load_page('/manage/modules.twig', ['modulesList'=>$core->modules]);
+            if (User::is_authorized(UserModel::USER_LEVEL_ADMIN)) {
+                $core = Core::load();
+                $core->modules->load_modules_from_disk();
+                Display::load_page('/manage/modules.twig', ['modulesList'=>$core->modules]);
+            }
         });
     }
 

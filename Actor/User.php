@@ -64,7 +64,7 @@ class User {
         } else {
             if ($redirect) {
                 Route::add_redirect();
-                Flight::redirect('/login', 401);
+                Flight::redirect(Config::get_config('siteUrl') . '/login');
             } else {
                 return false;
             }

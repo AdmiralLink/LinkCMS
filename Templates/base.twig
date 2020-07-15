@@ -9,6 +9,11 @@
         <script src="https://kit.fontawesome.com/443eff81e7.js" crossorigin="anonymous"></script>
         <link type="text/css" rel="stylesheet" href="/app.css" />
         <script src="/js/lib/utilities.js"></script>
+        <script>
+            window.linkcms = {
+                url: '{{ siteUrl }}',
+            };
+        </script>
         {% block addstyles %}{% endblock %}
     </head>
     {% if bodyClass is empty %}

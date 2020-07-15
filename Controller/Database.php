@@ -30,6 +30,39 @@ class Database {
         $query->execute(['value'=>$value]);
     }
 
+    public static function get_field($field) {
+        $db = Core::get_db();
+        if ($field) {
+            $query = $db->connection->query('SELECT ' . $field . ' FROM ' . static::$dbTable);
+            if ($results = $query->fetchAll(\PDO::FETCH_COLUMN, 0)) {
+                return $results;
+            } else {
+                return false;
+            }
+        } else {
+            throw new \Exception('No field found');
+        }
+    }
+
+    public static function load_all($offset=false, $limit=false, $orderBy=false) {
+        $db = Core::get_db();
+
+        $queryString = 'SELECT * FROM ' . static::$dbTable;
+        if ($offset) {
+            $queryString .= ' OFFSET ' . $offset;
+        }
+        if ($limit) {
+            $queryString .= ' LIMIT ' . $limit;
+        }
+        if ($orderBy) {
+            $queryString .= ' ORDREBY ' . $orderBy;
+        }
+        $query = $db->connection->prepare($queryString);
+        $query->execute();
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
     public static function load_collection_by(String $field, $value, $evaluator='=') {
         $db = Core::get_db();
 
@@ -57,7 +90,11 @@ class Database {
         }
         $db = Core::get_db();
         $query = $db->connection->prepare('INSERT INTO ' . static::$dbTable . '(' . substr($fields, 0, -1) . ')' .' VALUES (' . substr($valueString, 0, -1) . ')');
-        $query->execute($dataToStore);
+        if ($query->execute($dataToStore)) {
+            return $db->connection->lastInsertId();
+        } else {
+            return false;
+        }
     }
 
     public static function update($updateObj) {
@@ -82,6 +119,6 @@ class Database {
         $updateString = substr($updateString, 1);
         $update['id'] = intval($id);
         $statement = $db->connection->prepare('UPDATE ' . static::$dbTable . ' SET '. $updateString .' WHERE id=:id');
-        $statement->execute($update);
+        return $statement->execute($update);
     }
 }

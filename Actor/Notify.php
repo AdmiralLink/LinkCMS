@@ -2,6 +2,8 @@
 
 namespace LinkCMS\Actor;
 
+use Flight;
+
 class Notify {
     var $content;
     var $type;

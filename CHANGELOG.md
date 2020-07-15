@@ -1,3 +1,27 @@
+# 0.8.1
+## ADDED
+- Database methods for get_field and load_all
+- Slugify in Utilities.js
+- window.linkcms in manage header
+- Content Actor (API route for checking slugs)
+- Content controller
+## MODIFIED
+- Fixed redirect issue in User::is_authorized
+- Authorization now required for managing modules (d'oh)
+- Content model to match new Page module model
+- Updates and saves now return true/false (or insert ID, for save)
+### Hat/JS components
+- Hat 0.5.0 release
+- Ajax JS to handle sending objects
+- Editor's RemoveBlocks refactored to allow for RemoveAllBlocks
+- Toolbar's unlink button disabled after use; CheckForTag now checks more to make sure we're in the RIGHT edit container; FormattingCheck set after editEl focused into by click
+- Hat's createEditor now returns the editor you create
+- Hat.start() returns new editor when data is passed to it
+- MiniModal now allows for more things to be added after construct; adds NotificationTarget and NotificationText for non-text content to be accessibly explained via screen reader; adds proper aria roles for basic modals (and the controls to customize them as needed)
+## REMOVED
+- API Actor (remember the mantra: Only include what you need)=
+- Flatpickr
+
 # 0.8.0
 ## ADDED
 - Started Hat integration, added Hat.js and CSS

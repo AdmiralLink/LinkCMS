@@ -197,7 +197,7 @@ class Core {
 
         $GLOBALS['linkcmscore']->modules = new Module();
         
-        API::load();
+        Content::add_content_routes();
 
         Route::do_routes();
     }

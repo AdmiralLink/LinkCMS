@@ -27,7 +27,7 @@ class User extends Database {
         }
     }
 
-    public static function load_all($orderBy=false) {
+    public static function load_all($limit=false, $offset=false, $orderBy=false) {
         $db = Core::get_db();
         $order = ($orderBy) ? ' ORDERBY ' . $orderBy : '';
         $query = $db->connection->query('SELECT * FROM ' . static::$dbTable . $order);
