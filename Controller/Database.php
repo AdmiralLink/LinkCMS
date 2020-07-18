@@ -105,7 +105,7 @@ class Database {
             unset($updateObj->id);
         }
         if (!$id) {
-            self::save($updateObj);
+            return self::save($updateObj);
             exit();
         }
         $array = get_object_vars($updateObj);

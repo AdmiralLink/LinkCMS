@@ -26,7 +26,7 @@ class Route {
             $request = \Flight::request();
             $location = $request->url;
         }
-        setcookie('redirect', serialize(['location'=>$location, 'type'=>$type]));
+        setcookie('redirect', serialize(['location'=>$location, 'type'=>$type]), 0, '/');
     }
 
     public static function check_redirects($location=false) {

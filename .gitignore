@@ -1,4 +1,5 @@
 site.json
 vendor
+public/images/upload/*
 .vscode
 .DS_Store

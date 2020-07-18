@@ -1,3 +1,11 @@
+# 0.8.2
+## ADDED
+- Added image model, controller and actor
+## MODIFIED
+- Redirect cookie now setting for whole domain instead of specific URL
+- Ajax.js now allows you to pass FormData object without modification if you so desire
+- ImageUploader now has fields for caption, credit; new way of checking requireds
+
 # 0.8.1
 ## ADDED
 - Database methods for get_field and load_all

@@ -199,6 +199,8 @@ class Core {
         
         Content::add_content_routes();
 
+        Image::add_routes();
+
         Route::do_routes();
     }
 }

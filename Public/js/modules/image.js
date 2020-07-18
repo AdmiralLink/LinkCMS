@@ -1,7 +1,8 @@
 class ImageUploader {
     constructor() {
-        this.requireBoth = true;
+        this.required = ['altText','title'];
         this.uploading = false;
+        this.fields = {};
         this.createElements();
         this.addEvents();
     }
@@ -46,16 +47,33 @@ class ImageUploader {
             if (Hat.getOption('imageUploadUrl')) {
                 let url = Hat.getOption('imageUploadUrl');
                 if (this.fileData) {
-                    if (this.requireBoth && this.altText.value) {
-                        new ErrorModal('You must have both an image and alt text to upload');
-                        this.uploading = false;
-                        return false;
+                    if (this.required) {
+                        let hasAllFields = true;
+                        let uploader = this;
+                        this.required.forEach(function(requiredId) {
+                            if (!uploader.fields[requiredId].value) {
+                                hasAllFields = false;
+                                console.log('falsified');
+                            }
+                        });
+                        if (!hasAllFields) {
+                            new ErrorModal('Please include an image, title and alt text');
+                            this.uploading = false;
+                            return false;
+                        }
                     }
                     let uploader = this;
-                    let data = {
-                        image: this.fileData,
-                        altText: this.altText.value
-                    };
+                    let data = new FormData();
+                    data.append('image', this.fileData);
+                    this.required.forEach(function(item) {
+                        data.append(item, uploader.fields[item].value);
+                    });
+                    if (this.fields.caption.value) {
+                        data.append('caption', this.fields.caption.value);
+                    }
+                    if (this.fields.imageCredit.value) {
+                        data.append('imageCredit', this.fields.imageCredit.value);
+                    }
                     this.form.style.display = 'none';
                     let bar = new ProgressBar(this.container);
                     let upload = new Ajax(url, data, bar);
@@ -102,10 +120,19 @@ class ImageUploader {
         this.label.append(span);
         this.label.append(this.input);
         this.form.append(this.label);
+        let titleLabel = new InputField('title', 'Image Title');
+        let captionLabel = new InputField('caption', 'Caption');
+        let creditLabel = new InputField('credit', 'Image Credit');
         let altLabel = new InputField('altText','Alternative text for accessibility','A description of the photo');
+        this.form.append(titleLabel);
         this.form.append(altLabel);
+        this.form.append(creditLabel);
+        this.form.append(captionLabel);
         this.container.append(this.form);
-        this.altText = altLabel.children[0];
+        this.fields.altText = altLabel.children[0];
+        this.fields.title = titleLabel.children[0];
+        this.fields.imageCredit = creditLabel.children[0];
+        this.fields.caption = captionLabel.children[0];
     }
 
     createImageEl(url, altText) {
@@ -120,7 +147,7 @@ class ImageUploader {
             this.preview.classList.add('previewing');
         }
         if (content.altText) {
-            this.altText.value = content.altText;
+            this.fields.altText.value = content.altText;
         }
     }
 }
