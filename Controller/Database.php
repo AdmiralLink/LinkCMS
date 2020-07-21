@@ -30,6 +30,15 @@ class Database {
         $query->execute(['value'=>$value]);
     }
 
+    public static function get_count($where=false) {
+        $db = Core::get_db();
+        $where = ($where) ? ' WHERE ' . $where : '';
+        $query = $db->connection->prepare('SELECT COUNT(*) as count FROM ' . static::$dbTable . $where);
+        $query->execute();
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        return $result[0]['count'];
+    }
+
     public static function get_field($field) {
         $db = Core::get_db();
         if ($field) {
@@ -48,14 +57,14 @@ class Database {
         $db = Core::get_db();
 
         $queryString = 'SELECT * FROM ' . static::$dbTable;
-        if ($offset) {
-            $queryString .= ' OFFSET ' . $offset;
+        if ($orderBy) {
+            $queryString .= ' ORDER BY ' . $orderBy;
         }
         if ($limit) {
             $queryString .= ' LIMIT ' . $limit;
         }
-        if ($orderBy) {
-            $queryString .= ' ORDREBY ' . $orderBy;
+        if ($offset) {
+            $queryString .= ' OFFSET ' . $offset;
         }
         $query = $db->connection->prepare($queryString);
         $query->execute();

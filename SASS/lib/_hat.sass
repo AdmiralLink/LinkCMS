@@ -22,7 +22,7 @@ $font: "San Francisco","Helvetica Neue","Helvetica",sans-serif
         &.previewing
             svg, span
                 display: none
-            img.preview
+            div.preview, img.preview
                 display: block
         svg
             font-size: 30px
@@ -412,6 +412,8 @@ section .hat-editor
                         background: white
                         &.editContainer
                             border-top: solid 1px #ddd
+                            ul
+                                margin-left: 15px
                             > *, blockquote, pre
                                 position: relative
                                 &:before
@@ -424,23 +426,23 @@ section .hat-editor
                                     transform: translateY(-50%)
                             h1, h2, h3, h4, p
                                 padding: 0
-                                padding-left: 5px
+                                padding-left: 8px
                             h1, h2, h3, h4
                                 margin: 4px 0
                             h1
-                                font-size: 30px
+                                font-size: 30px !important
                             > h1:before
                                 content: 'h1'
                             h2
-                                font-size: 24px
+                                font-size: 24px !important
                             > h2:before
                                 content: 'h2'
                             h3
-                                font-size: 20px
+                                font-size: 20px !important
                             > h3:before
                                 content: 'h3'
                             h4
-                                font-size: 18px
+                                font-size: 18px !important
                             > h4:before
                                 content: 'h4'
                             p

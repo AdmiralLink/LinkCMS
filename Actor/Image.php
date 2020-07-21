@@ -19,23 +19,31 @@ class Image {
             if ($image) {
                 $imageId = ImageController::save($image);
                 if ($imageId) {
-                    Notify::send_message(['id' => $imageId], 'success');
+                    $image->id = $imageId;
+                    Notify::send_message(['image' => $image], 'success');
                 } else {
                     Notify::throw_error('Database save failed.');
                 }
+            } else {
+                Notify::throw_error('No image found');
             }
+        });
+
+        Flight::route('GET /api/image/load(/@offset)', function($offset) {
+            User::is_authorized(UserModel::USER_LEVEL_AUTHOR);
+            Notify::send_message(['images' => ImageController::load_all($offset), 'count' => ImageController::get_count()], 'success');
         });
     }
 
     public static function get_image_directory() {
         $year = date('Y');
         $month = date('M');
-        $directory = self::$imagePath . $year . '/' . $month . '/';
+        $directory = $year . '/' . $month . '/';
         if (!file_exists(self::$imagePath . $year . '/')) {
             mkdir(self::$imagePath . $year);
         }
-        if (!file_exists($directory)) {
-            mkdir($directory);
+        if (!file_exists(self::$imagePath . $directory)) {
+            mkdir(self::$imagePath . $directory);
         }
         return $directory;
     }
@@ -48,9 +56,10 @@ class Image {
                 Notify::throw_error('Invalid image type');
             }
             $extension = static::$allowedImageTypes[$mimeType]; 
-            $imagePath = self::get_image_directory() . uniqid() . $extension;
-            move_uploaded_file($image['tmp_name'], $imagePath);
-            $_POST['imageUrl'] = $imagePath;
+            $imagePath = self::get_image_directory() . uniqid() . '.' . $extension;
+            move_uploaded_file($image['tmp_name'], self::$imagePath . $imagePath);
+            $imageUrl = Config::get_config('siteUrl') . '/images/upload/' . $imagePath;
+            $_POST['imageUrl'] = $imageUrl;
 
         } else {
             Notify::throw_error('Improper upload');

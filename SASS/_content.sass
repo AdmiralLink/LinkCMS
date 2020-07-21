@@ -32,3 +32,43 @@ div.datePicker
     .selected
         background: $primary
         color: white
+.miniModal-container.imageLibrary
+    max-width: 712px
+    .library
+        .images
+            flex-wrap: no-wrap
+            max-height: 300px
+            overflow-y: scroll
+            .image
+                margin: 3px
+                cursor: pointer
+                background: white
+                &.selected
+                    background: #ddd
+                .imageContainer
+                    display: flex
+                    img
+                        width: 150px
+                        display: block
+                        width: 150px
+                        height: auto
+                    h3
+                        font-size: 14px
+        &.thumbnailView
+            .images
+                flex-wrap: wrap
+                overflow-y: scroll
+            .image
+                .imageContainer
+                    width: 150px
+                    height: 150px
+                    display: block
+                    img
+                        top: 50%
+                        position: relative
+                        display: block
+                        width: 150px
+                        height: auto
+                        transform: translateY(-50%)
+                h3
+                    display: none

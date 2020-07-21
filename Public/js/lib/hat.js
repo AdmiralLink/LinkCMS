@@ -835,50 +835,6 @@
       }
   }
 
-  class ImageUploadModal extends MiniModal {
-      constructor() {
-          super(false, true);
-          this.uploader = new ImageUploader;
-          this.addEvents();
-          this.constructModal(this.getModalOptions());
-      }
-
-      addEvents() {
-          let modal = this;
-          let uploader = this.uploader;
-          this.uploader.form.addEventListener('uploaded', function() {
-              modal.modalContainer.dispatchEvent(new Event('uploaded'));
-              modal.close();
-          });
-          this.uploader.form.addEventListener('keydown', function(e) {
-              if (e.keyCode == 13) {
-                  e.preventDefault();
-                  uploader.confirm();
-              }
-          });
-          this.uploader.input.addEventListener('change', function(e) {
-              uploader.acceptFile(this.files[0]);
-          });
-          this.uploader.label.addEventListener('drop', function(e) {
-              uploader.acceptFile(e.dataTransfer.files[0]);
-          });
-      }
-
-      confirm() {
-          this.uploader.confirm();
-      }
-
-      getModalOptions() {
-          return {
-              contentType: 'node',
-              content: this.uploader.container,
-              confirm: true,
-              enterConfirms: false,
-              focusTarget: this.uploader.label,
-          };
-      }
-  }
-
   class LinkModal extends MiniModal {
       constructor(details) {
           super(false, true);
@@ -983,7 +939,7 @@
       }
 
       addFormattingButtons() {
-          this.paragraphBtn = new BrowserFormattingButton('Make this a paragraph', 'paragraph', 'p', this.parentBlock);
+          this.paragraphBtn = new BrowserFormattingButton('Make selected text a paragraph', 'paragraph', 'p', this.parentBlock);
           this.container.append(this.paragraphBtn);
           this.boldBtn = new BrowserFormattingButton('Toggle selected text bold', 'bold', 'strong', this.parentBlock);
           this.container.append(this.boldBtn);
@@ -1019,6 +975,41 @@
               toolbar.toggleHtmlView();
           });
           toolbar.container.append(el);
+      }
+
+      addImage() {
+          let sel = window.getSelection();
+          let range = sel.getRangeAt(0);
+          let image = new ImageLibraryModal();
+          let toolbar = this;
+          image.modalContainer.addEventListener('confirmed', function(e) {
+            toolbar.returnCursor(sel, range);
+            if (image.library.selectedImage) {
+                let newImage = image.library.selectedImage;
+                let imageContainer = new DomEl('figure');
+                let imageEl = new DomEl('img[src="' + newImage.dataset.imageUrl +'"][alt="' + newImage.dataset.altText + '"]');
+                imageContainer.append(imageEl);
+                if (newImage.dataset.photoCredit) {
+                    let creditEl = new DomEl('figcaption.credit');
+                    creditEl.innerText = newImage.dataset.credit;
+                    imageContainer.append(creditEl);
+                }
+                if (newImage.dataset.caption) {
+                    let captionEl = new DomEl('figcaption.caption');
+                    captionEl.innerText = newImage.dataset.caption;
+                    imageContainer.append(captionEl);
+                }
+                if (toolbar.parentBlock.view == 'content') {
+                    document.execCommand('insertHTML', false, imageContainer.outerHTML);
+                } else {
+                    document.execCommand('insertText', false, imageContainer.outerHTML);
+                }
+                image.library.selectedImage = false;
+            }  
+        });
+          image.modalContainer.addEventListener('canceled', function(e) {
+              toolbar.returnCursor(sel, range);
+          });
       }
 
       addLink() {
@@ -1064,24 +1055,6 @@
               toolbar.checkFormatting();
           });
           link.modalContainer.addEventListener('canceled', function(e) {
-              toolbar.returnCursor(sel, range);
-          });
-      }
-
-      addImage() {
-          let sel = window.getSelection();
-          let range = sel.getRangeAt(0);
-          let image = new ImageUploadModal();
-          let toolbar = this;
-          image.modalContainer.addEventListener('uploaded', function(e) {
-              toolbar.returnCursor(sel, range);
-              if (toolbar.parentBlock.view == 'content') {
-                  document.execCommand('insertHTML', false, image.uploader.imageEl.outerHTML);
-              } else {
-                  document.execCommand('insertText', false, image.uploader.imageEl.outerHTML);
-              }
-          });
-          image.modalContainer.addEventListener('canceled', function(e) {
               toolbar.returnCursor(sel, range);
           });
       }

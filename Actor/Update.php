@@ -9,7 +9,7 @@ class Update {
         $this->core = Core::load();
         $currentVersion = ($this->core->get_config('version')) ? $this->core->get_config('version') : 0;
         if ($currentVersion == 0) {
-            $currentVersion = 0.1;
+            $currentVersion = 0.9;
         }
         Config::set_config('version', $currentVersion);
     }

@@ -1,3 +1,20 @@
+# 0.9.0
+## ADDED
+- Controller/Database::get_count for full count of items
+- Controller/Image::load_all to load image objects instead of raw data
+- ImageLibrary CSS
+- /// JS ///
+- ImageLibrary, Image class to image.js
+- ImageLibraryModal to Notify.js
+## MODIIFIED
+- Image actor has load routes; upload route now returns full upload info; image directory now set properly
+- Controller/Database::load_all has proper SQL syntax for ORDER BY, proper order of offset/limit/order
+- /// JS ///
+- Checkboxes now includes proper IDs for label functionality
+- Moved ImageUploadModal to Notify
+- Modified ParagraphToolbar's addImage method to use ImageLibrary
+- ImageUploadModal now returns raw ajax data rather than the imageel
+
 # 0.8.2
 ## ADDED
 - Added image model, controller and actor
@@ -20,7 +37,7 @@
 - Updates and saves now return true/false (or insert ID, for save)
 ### Hat/JS components
 - Hat 0.5.0 release
-- Ajax JS to handle sending objects
+- Ajax JS to handle sending objects 
 - Editor's RemoveBlocks refactored to allow for RemoveAllBlocks
 - Toolbar's unlink button disabled after use; CheckForTag now checks more to make sure we're in the RIGHT edit container; FormattingCheck set after editEl focused into by click
 - Hat's createEditor now returns the editor you create

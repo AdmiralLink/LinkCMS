@@ -257,3 +257,74 @@ class WorkingModal extends MiniModal {
         this.text = text;
     }
 }
+
+class ImageLibraryModal extends MiniModal {
+    constructor() {
+        super(false, true);
+        this.library = new ImageLibrary();
+        this.constructModal(this.getModalOptions()); 
+        this.modalContainer.classList.add('imageLibrary');
+    }
+
+    confirm() {
+        if (this.options.confirm) {
+            this.modalContainer.dispatchEvent(new Event('confirmed'));
+            this.confirmed = true;
+        }
+        this.close();
+    }
+
+    getModalOptions() {
+        return {
+            contentType: 'node',
+            content: this.library.container,
+            confirm: true,
+            enterConfirms: true,
+            focusTarget: this.library.addButton,
+        };
+    }
+}
+
+class ImageUploadModal extends MiniModal {
+    constructor() {
+        super(false, true);
+        this.uploader = new ImageUploader;
+        this.addEvents();
+        this.constructModal(this.getModalOptions());
+    }
+
+    addEvents() {
+        let modal = this;
+        let uploader = this.uploader;
+        this.uploader.form.addEventListener('uploaded', function(e) {
+            modal.modalContainer.dispatchEvent(new Event('uploaded'));
+            modal.close();
+        });
+        this.uploader.form.addEventListener('keydown', function(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                uploader.confirm();
+            }
+        });
+        this.uploader.input.addEventListener('change', function(e) {
+            uploader.acceptFile(this.files[0]);
+        });
+        this.uploader.label.addEventListener('drop', function(e) {
+            uploader.acceptFile(e.dataTransfer.files[0]);
+        });
+    }
+
+    confirm() {
+        this.uploader.confirm();
+    }
+
+    getModalOptions() {
+        return {
+            contentType: 'node',
+            content: this.uploader.container,
+            confirm: true,
+            enterConfirms: false,
+            focusTarget: this.uploader.label,
+        };
+    }
+}
