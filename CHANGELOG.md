@@ -1,3 +1,8 @@
+# 0.9.1
+## MODIFIED
+- Updated Error so it only needs a string
+- Updated Hat to 0.6.5
+
 # 0.9.0
 ## ADDED
 - Controller/Database::get_count for full count of items

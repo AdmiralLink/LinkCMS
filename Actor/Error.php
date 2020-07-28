@@ -25,6 +25,10 @@ class Error {
     public static function handle_error($e, $force=false) {
         global $whoops;
 
+        if (is_string($e)) {
+            $e = new \Exception($e);
+        }
+
         $core = Core::load();
         $error = self::load();
         $request = Flight::request();
