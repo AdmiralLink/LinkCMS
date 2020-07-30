@@ -38,12 +38,16 @@ class ImageLibrary {
             library.uploadModal = new ImageUploadModal();
             library.uploadModal.modalContainer.addEventListener('uploaded', library.acceptUpload.bind(library));
         });
+        this.loadButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            library.loadImages();
+        });
     }
 
     addImages() {
         if (this.ajaxload.response.type == 'success') {
             if (this.ajaxload.response.content.count) {
-                this.imageStore.total = this.ajaxload.response.content.count;
+                this.imageStore.total = parseInt(this.ajaxload.response.content.count);
             }
             if (this.ajaxload.response.content.images.length > 0) {
                 this.imageStore.offset += this.ajaxload.response.content.images.length;
@@ -63,12 +67,25 @@ class ImageLibrary {
         this.label.innerText = 'This modal will allow you to select an image from the library. Use the add button to upload a new image, or select an existing one using the spacebar to select an image and enter to confirm it.';
         this.container = new DomEl('div.library.thumbnailView');
         this.labelContainer = new DomEl('div.sr-only');
+        let buttonBar = new DomEl('div.display-flex.space-between');
         this.addButton = new DomButton('addImage', 'file-upload', 'primary', ' Upload');
+        this.loadButton = new DomButton('loadMore', 'retweet', 'secondary', 'Load More');
+        this.loadButton.setAttribute('disabled','');
+        buttonBar.append(this.addButton);
+        buttonBar.append(this.loadButton);
         this.imageHolder = new DomEl('div.images.display-flex');
         this.container.append(this.labelContainer);
         this.container.append(this.label);
-        this.container.append(this.addButton);
+        this.container.append(buttonBar);
         this.container.append(this.imageHolder);
+    }
+
+    checkForMore() {
+        if (this.imageStore.total !== 0 && this.imageStore.total !== this.imageStore.images.length) {
+            this.loadButton.removeAttribute('disabled');
+        } else {
+            this.loadButton.setAttribute('disabled', '');
+        }
     }
 
     loadFromLocal() {
@@ -88,6 +105,7 @@ class ImageLibrary {
             let LibraryObj = this;
             this.ajaxload.eventEl.addEventListener('success', function() {
                 LibraryObj.addImages();
+                LibraryObj.checkForMore();
             }); 
         }
     }

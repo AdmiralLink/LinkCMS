@@ -154,7 +154,6 @@
                     }
                     content[value.position.number] = contents;
                 }
-                debugger;
 
                 return content;
             },

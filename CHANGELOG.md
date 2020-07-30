@@ -1,3 +1,11 @@
+# 0.9.2
+## ADDED
+- "Load More" button for Image Library
+## MODIFIED
+- Swapped Open Sans Condensed for Open Sans
+- Uses Open Sans throughout
+- Disabled state for buttons now universal
+
 # 0.9.1
 ## MODIFIED
 - Updated Error so it only needs a string
