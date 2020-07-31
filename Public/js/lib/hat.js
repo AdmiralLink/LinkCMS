@@ -56,7 +56,11 @@
             }
         };
         let Internal = {
-            blockCount: 0,
+            addEvents: function() {
+                Elements.blockHolder.addEventListener('blockChanged', debounce((e) => {
+                    Interface.getBlockPosition();
+                }, 200));
+            },
             initialize: function (containerEl, data) {
                 Elements.container = containerEl;
                 Elements.blockHolder = document.createElement('div');
@@ -70,6 +74,8 @@
                     Interface.addBlock();
                 }
                 Internal.manageSorting();
+                Internal.addEvents();
+                Interface.getBlockPosition();
                 BlockChooser.create();
                 document.execCommand('defaultParagraphSeparator', false, 'p');
             },
@@ -84,27 +90,32 @@
                 });
             },
             removeBlock: function (block, defaultAction = true) {
-                var blockId = block.el.id;
-                if (Blocks.hasOwnProperty(blockId)) {
-                    block.getPosition();
-                    if (defaultAction) {
-                        let newFocus = (block.position.first) ? block.el.nextSibling.id : block.el.previousSibling.id;
-                        Blocks[newFocus].focus();
-                    }
-                    block.el.remove();
-                    Blocks.splice(blockId, 1);
-                    BlockCount--;
-                    if (defaultAction) {
-                        Events.fire('blockChanged');
+                var blockId = block.mechanic.settings.id;
+                for (let [key, block] of Object.entries(Blocks)) {
+                    if (block.mechanic.settings.id == blockId) {
+                        block.getPosition();
+                        if (defaultAction) {
+                            let newFocus = (block.position.first) ? block.el.nextSibling : block.el.previousSibling;
+                            Interface.getBlock(newFocus).focus();
+                        }
+                        block.el.remove();
+                        Blocks.splice(key, 1);
+                        BlockCount--;
+                        if (defaultAction) {
+                            Events.fire('blockChanged');
+                        }
+                        break;
                     }
                 }
             }
         };
         let Interface = {
             addBlock: function (focus = true, position = false, type = window.Hat.getDefault(), data = false) {
+                if (data && !data.settings.id) {
+                    data.settings.id = 'block' + new Date().getTime();
+                }
                 let blockClass = window.Hat.getBlock(type);
                 let block = new blockClass.class(this, data);
-                block.el.id = 'block' + new Date().getTime();
                 if (position === false) {
                     Elements.blockHolder.appendChild(block.el);
                 } else {
@@ -113,33 +124,46 @@
                 if (focus) {
                     block.focus();
                 }
-                Blocks[block.el.id] = block;
+                Blocks.push(block);
                 BlockCount++;
                 Events.fire('blockChanged');
             },
             fireEvent: function (eventName, element = Elements.blockHolder) {
                 Events.fire(eventName, element);
             },
+            getBlock: function(blockEl) {
+                for (let [key, block] of Object.entries(Blocks)) {
+                    if (blockEl == block.el) {
+                        return block;
+                    }
+                };
+            },
             getBlockContainer: function () {
                 return Elements.blockHolder;
             },
             getBlockPosition: function (blockEl) {
-                let blocks = Elements.blockHolder.querySelectorAll('.block');
-                let position = { count: BlockCount };
-                if (position.count == 1) {
-                    position.first = true;
-                    position.last = true;
-                    position.number = 0;
+                if (!blockEl) {
+                    for (let [idx, block] of Object.entries(Blocks)) {
+                        Interface.getBlockPosition(block);
+                    }
                 } else {
-                    position.first = (blocks[0] == blockEl);
-                    position.last = (blocks[BlockCount - 1] == blockEl);
-                    for (let [idx, checkBlock] of Object.entries(blocks)) {
-                        if (checkBlock == blockEl) {
-                            position.number = idx;
+                    let blocks = Elements.blockHolder.querySelectorAll('.block');
+                    let position = { count: BlockCount };
+                    if (position.count == 1) {
+                        position.first = true;
+                        position.last = true;
+                        position.number = 0;
+                    } else {
+                        position.first = (blocks[0] == blockEl);
+                        position.last = (blocks[BlockCount - 1] == blockEl);
+                        for (let [idx, checkBlock] of Object.entries(blocks)) {
+                            if (checkBlock == blockEl) {
+                                position.number = idx;
+                            }
                         }
                     }
+                    return position;
                 }
-                return position;
             },
             getContainer: function () {
                 return Elements.container;
@@ -149,9 +173,6 @@
                 for (let [key, value] of Object.entries(Blocks)) {
                     value.getPosition();
                     let contents = value.getContents();
-                    if (!contents.settings.id) {
-                        contents.settings.id = key;
-                    }
                     content[value.position.number] = contents;
                 }
 
@@ -640,67 +661,93 @@
     }
 
     class ImageBlock extends Block {
-        acceptFile(file) {
-            if (file) {
-                if (!file.type.match(/image.*/)) {
-                    new ErrorModal('File is not a valid image');
-                } else {
-                    this.uploader.fileData = file;
-                    this.uploader.confirm();
-                }
-            }
-        }
-
         addEvents() {
             let block = this;
-            this.uploader.input.addEventListener('change', function (e) {
-                block.acceptFile(this.files[0]);
-            });
-            this.uploader.label.addEventListener('drop', function (e) {
-                block.acceptFile(e.dataTransfer.files[0]);
-            });
-            this.uploader.form.addEventListener('uploaded', function () {
-                block.removeButton.classList.remove('hide');
-                block.contentContainer.append(block.uploader.imageEl);
-                block.uploader.form.style.display = 'block';
-                block.uploader.form.classList.add('uploaded');
+            this.selectButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                block.modal = new ImageLibraryModal();
+                block.modal.modalContainer.addEventListener('confirmed', function (e) {
+                    if (block.modal.library.selectedImage) {
+                        let newImage = block.modal.library.selectedImage.dataset;
+                        block.preview.src = newImage.imageUrl;
+                        block.preview.classList.remove('hide');
+                        block.selectedImageId = newImage.id;
+                        for (let [idx, value] of Object.entries(['altText', 'imageCredit', 'caption'])) {
+                            if (newImage[value] !== 'null') {
+                                block[value].children[0].value = newImage[value];
+                            }
+                        }
+                        block.form.classList.remove('hide');
+                        block.removeButton.classList.remove('hide');
+                        block.selectContainer.classList.add('hide');                       
+                    }
+                });
             });
             this.removeButton.addEventListener('click', function (e) {
                 e.preventDefault();
-                block.uploader.imageEl.remove();
-                delete (block.uploader.imageEl);
-                block.uploader.form.classList.remove('uploaded');
-                this.classList.add('hide');
+                block.selectedImageId = false;
+                block.preview.src = '';
+                block.preview.classList.add('hide');
+                for (let[idx, value] of Object.entries('altText', 'imageCredit', 'caption')) {
+                    block[value] = '';
+                }
+                block.form.classList.add('hide');
+                block.removeButton.classList.add('hide');
+                block.selectContainer.classList.remove('hide');
             });
         }
 
         createElement() {
             this.el.classList.add('image');
-            this.uploader = new ImageUploader();
-            this.removeButton = new DomButton('Select this to remove the current image', 'eye-slash', 'removeBtn', 'Remove image');
+            this.form = new DomEl('form.hide');
+            this.altText = new InputField('altText', 'Alt Text', 'All images should have alternative text unless they\'re purely decorative', 'text');
+            this.imageCredit = new InputField('imageCredit', 'Image Credit', 'Credit for the photographer/illustrator/creator', 'text');
+            this.caption = new InputField('caption', 'Caption', 'Text displayed along with the image', 'text');
+            this.form.append(this.altText);
+            this.form.append(this.imageCredit);
+            this.form.append(this.caption);
+            this.preview = new DomEl('img.preview.hide');
+            this.selectContainer = new DomEl('div.selector.t-center.p-25');
+            this.selectButton = new DomButton('Select image from library', 'images', 'primary stack inverse m-0-auto', 'Select Image');
+            this.selectContainer.append(this.selectButton);
+            this.removeButton = new DomButton('Select this to remove the current image', 'eye-slash', 'removeBtn stack', 'Remove image');
             this.removeButton.classList.add('hide');
-            this.contentContainer.appendChild(this.uploader.form);
+            this.contentContainer.append(this.selectContainer);
             this.contentContainer.appendChild(this.removeButton);
+            this.contentContainer.append(this.preview);
+            this.contentContainer.append(this.form);
         }
 
         focus() {
-            this.uploader.label.focus();
+            this.selectButton.focus();
         }
 
         getContents() {
-            let content = {
-                altText: this.uploader.altText.value,
-                image: false
+            let content = {   
+                settings: this.mechanic.getValues(),
+                type: 'image',
+                content: {
+                    altText: this.altText.children[0].value,
+                    caption: this.caption.children[0].value,
+                    imageCredit: this.imageCredit.children[0].value,
+                    imageUrl: this.preview.src,
+                    imageId: this.selectedImageId
+                }
             };
-            if (this.uploader.imageEl) {
-                content.image = this.uploader.imageEl.src;
-            }
+            return content;
         }
 
         loadContent() {
-            if (this.content) {
-                this.uploader.setContent(this.content);
+            if (this.content && this.content.imageUrl) {
+                this.selectedImageId = this.content.imageId;
+                this.altText.children[0].value = this.content.altText;
+                this.caption.children[0].value = this.content.caption;
+                this.imageCredit.children[0].value = this.content.imageCredit;
+                this.preview.src = this.content.imageUrl;
                 delete this.content;
+                this.selectContainer.classList.add('hide');
+                this.removeButton.classList.remove('hide');
+                this.form.classList.remove('hide');
             }
         }
     }

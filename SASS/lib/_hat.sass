@@ -2,6 +2,16 @@ $red: $error
 $green: $primary
 $font: "San Francisco","Helvetica Neue","Helvetica",sans-serif
 
+@mixin flatbutton
+    display: initial
+    padding: 2px 5px
+    border: initial
+    margin: initial
+    text-transform: initial
+    text-decoration: initial
+    border-radius: initial
+    box-shadow: initial
+
 @mixin imageUploader
     label.imageUploader
         display: block
@@ -130,15 +140,6 @@ section .hat-editor
     background: white
     padding: 5px
     font-family: $font
-    button
-      display: initial
-      padding: 2px 5px
-      border: initial
-      margin: initial
-      text-transform: initial
-      text-decoration: initial
-      border-radius: initial
-      box-shadow: initial
     #newBlockContainer
         width: 200px
         margin-left: calc(100% - 200px)
@@ -180,6 +181,7 @@ section .hat-editor
                 transition: transform 0.4s
                 transform: scaleY(1)
             button
+                @include flatbutton
                 cursor: pointer
                 width: 100%
                 display: block
@@ -269,6 +271,7 @@ section .hat-editor
             display: grid
             grid-template-rows: 30px auto 30px
             button
+                @include flatbutton
                 border: 0
                 border-right: 1px solid rgba(0,0,0,0.1)
                 &:first-of-type
@@ -286,6 +289,7 @@ section .hat-editor
         div[aria-label="Block settings"]
             border-left: 1px solid rgba(0,0,0,0.1)
             button
+                @include flatbutton
                 border: 0
                 width: 31px
                 height: 31px
@@ -331,20 +335,11 @@ section .hat-editor
                 font-family: monospace
                 resize: vertical
         &.image
-            @include imageUploader
             @include form
-            img.chosen
-                width: 80%
-                max-width: 800px
+            img.preview
+                max-width: 80%
                 margin: 0 auto 20px
                 display: block
-            label.imageUploader
-                width: 80%
-                max-width: 500px
-                margin: 15px auto
-            div.uploaded
-                label.imageUploader
-                    display: none
             .removeBtn
                 background: $red
                 color: white
@@ -364,6 +359,7 @@ section .hat-editor
                 background: white
                 vertical-align: middle
                 button
+                    @include flatbutton
                     font-size: 19px
                     background: white
                     border-left: 0

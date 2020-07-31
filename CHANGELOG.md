@@ -1,3 +1,16 @@
+# 0.9.3
+## ADDED
+- Editor.getBlock
+## MODIFIED
+- DomButton now allows for multiple classes
+- BlockPosition now automatically set after every block change
+- Blocks no longer indexed by ID - they are now just a simple array
+- Editor.RemoveBlock now checks for element in Blocks against elements
+- Block ID is set on addBlock
+- ImageBlock now uses ImageLibrary
+- Buttons no longer underlined text
+- Stacked buttons nudged svgs
+
 # 0.9.2
 ## ADDED
 - "Load More" button for Image Library

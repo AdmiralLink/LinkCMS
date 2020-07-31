@@ -68,8 +68,8 @@ class ImageLibrary {
         this.container = new DomEl('div.library.thumbnailView');
         this.labelContainer = new DomEl('div.sr-only');
         let buttonBar = new DomEl('div.display-flex.space-between');
-        this.addButton = new DomButton('addImage', 'file-upload', 'primary', ' Upload');
-        this.loadButton = new DomButton('loadMore', 'retweet', 'secondary', 'Load More');
+        this.addButton = new DomButton('addImage', 'file-upload', 'secondary stack', ' Upload');
+        this.loadButton = new DomButton('loadMore', 'retweet', 'primary inverse stack', 'Load More');
         this.loadButton.setAttribute('disabled','');
         buttonBar.append(this.addButton);
         buttonBar.append(this.loadButton);
