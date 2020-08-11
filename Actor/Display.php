@@ -127,10 +127,18 @@ class Display {
         return true;
     }
 
-    public static function header(String $type) {
-        switch ($type) {
-            
+    public static function find_header($filename) {
+        $type = false;
+        $extension = explode(".", $filename);
+        $extension = end($extension);
+        if ($extension && in_array($extension, array_keys(File::KNOWN_EXTENSIONS))) {
+            $type = File::KNOWN_EXTENSIONS[$extension];
+            self::header($type);
         }
+    }
+
+    public static function header(String $type) {
+        header('Content-type: ' . $type);
     }
 
     public static function register_filter($name, $function) {

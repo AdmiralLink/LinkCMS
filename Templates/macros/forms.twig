@@ -131,13 +131,6 @@
   </formset>
 {% endmacro %}
 
-{% macro quill(name, displayLabel, value, attributes) %}
-  {% from _self import textarea %}
-    <fieldset class="quill textarea form-group">
-        {{ textarea(name, displayLabel, value, attributes) }}
-    </fieldset>
-{% endmacro %}
-
 {% macro checkbox(name, displayLabel, value, id, attributes) %}
   <div class="checkbox"><input type="checkbox" name="{{ name }}" id="{{ id|default(name) }}" class="{{ class }}" value="1"{% if value %} checked="checked"{% endif %}{% for attr, value in attributes %} {{ attr }}="{{ value }}"{% endfor %} />
   <i class="fas fa-circle"></i><i class="fas fa-check-circle"></i>

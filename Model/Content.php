@@ -13,6 +13,7 @@ abstract class Content {
     var $publishedModifiedDate;
     var $slug;
     var $status;
+    var $template;
     var $title;
     var $type;
 

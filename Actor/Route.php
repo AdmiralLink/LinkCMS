@@ -4,6 +4,7 @@ namespace LinkCMS\Actor;
 
 use \Flight;
 use LinkCMS\Model\User as UserModel;
+use LinkCMS\Controller\Content as ContentController;
 
 class Route {
     var $manageNamespaces = ['modules', 'users'];
@@ -80,6 +81,32 @@ class Route {
             }
         }
 
+        Flight::route('GET /', function() {
+            $core = Core::load();
+            if (isset($core->themes->frontSlug)) {
+                $content = ContentController::load_by('slug', $core->themes->frontSlug);
+                if ($content) {
+                    if (isset($core->content->registry->{$content['type']})) {
+                        $content = new $core->content->registry->{$content['type']}($content);
+                        Display::load_page('pages/' . $content->template . '.twig', [$content->type => $content]);
+                    }
+                }
+            } else {
+                $front_slugs = ['home', 'front', 'main'];
+                foreach ($front_slugs as $slug) {
+                    $content = ContentController::load_by('slug', $slug);
+                    if ($content) {
+                        if (isset($core->content->registry->{$content['type']})) {
+                            $content = new $core->content->registry->{$content['type']}($content);
+                            Display::load_page('pages/' . $content->template . '.twig', [$content->type => $content]);
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        });
+
         Flight::map('error', function($e){
             Error::handle_error($e);
         });
@@ -147,6 +174,7 @@ class Route {
             $path = 'GET ' . $frontPath . $destPath . '/@file';
             Flight::route($path, function($file) use ($sourceDir) {
                 if (file_exists($sourceDir . '/' . $file)) {
+                    Display::find_header($file);
                     print file_get_contents($sourceDir . '/' . $file);
                 } else {
                     throw new \Exception('File not found');

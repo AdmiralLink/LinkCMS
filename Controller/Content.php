@@ -6,7 +6,7 @@ use \LinkCMS\Actor\Core;
 
 class Content extends Database {
     static $dbTable = 'content';
-    static $fields = ['type','title','draftContent','draftModifiedDate', 'slug','publishedContent','publishedModifiedDate','pubDate','status',];
+    static $fields = ['type', 'title', 'template', 'draftContent', 'draftModifiedDate', 'slug', 'publishedContent', 'publishedModifiedDate', 'pubDate', 'status'];
 
     public static function delete($id) {
         self::delete_by('id', $id);

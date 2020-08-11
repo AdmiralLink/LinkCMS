@@ -11,13 +11,6 @@ class Config {
 
     public function __construct() {
         $this->load_configuration();
-        if ($this->configLoaded) {
-            if (isset($this->config->theme) && $this->config->theme) {
-                Theme::load_current_theme();
-            } else {
-                Core::add_message('Template Name or Namespace not set in config file; frontend pages will not work correctly');
-            }
-        }
     }
 
     public static function get_config($param=false) {

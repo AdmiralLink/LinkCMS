@@ -7,6 +7,17 @@ use LinkCMS\Controller\Content as ContentController;
 use LinkCMS\Model\User as UserModel;
 
 class Content {
+    var $registry;
+
+    public function __construct() {
+        $this->registry = new \stdClass();
+        Route::add_route(['LinkCMS\Actor\Content', 'do_routes']);
+    }
+
+    public function add_content_type($slug, $class) {
+        $this->registry->{$slug} = $class;
+    }
+
     public static function is_slug_taken($slug, $id) {
         $core = Core::load();
         if (!Route::is_namespace_free($slug)) {
@@ -23,10 +34,6 @@ class Content {
                 }
             }
         }
-    }
-
-    public static function add_content_routes() {
-        Route::add_route(['LinkCMS\Actor\Content', 'do_routes']);
     }
 
     public static function do_routes() {

@@ -1,0 +1,17 @@
+{% extends '/manage/index.twig' %}
+{% import '/macros/forms.twig' as forms %}
+
+{% set pageTitle = 'Settings' %}
+
+{% set bodyClass = ['settings', 'form'] %}
+
+{% block content %}
+<h1 class="t-right">Settings</h1>
+<form method="post" class="form label-s mw-600">
+    {{ forms.text('siteTitle', 'Site Title', config.siteTitle) }}
+    {{ forms.text('adminEmail', 'Admin Email', config.adminEmail) }}
+    {{ forms.text('securityHash', 'Security Hash', config.securityHash) }}
+    {{ forms.text('theme', 'Theme', config.theme) }}
+    {{ forms.button('Save', 'primary', 'saveBtn' )}}
+</form>
+{% endblock %}

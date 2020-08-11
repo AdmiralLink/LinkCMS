@@ -85,8 +85,14 @@
 @each $display in ['inline', 'inline-block', 'static', 'grid', 'flex', 'block']
     .display-#{$display}
         display: #{$display}
-.space-between
-    justify-content:  space-between
+.j-around
+    justify-content: space-around
+.j-between
+    justify-content: space-between
+.j-end
+    justify-content: flex-end
+.j-start
+    justify-content: flex-start
 @each $col in [2,3,4,5,6,7,8,9,10]
     .col-#{$col}
         grid-template-columns: repeat(#{$col}, 1fr)

@@ -67,7 +67,7 @@ class ImageLibrary {
         this.label.innerText = 'This modal will allow you to select an image from the library. Use the add button to upload a new image, or select an existing one using the spacebar to select an image and enter to confirm it.';
         this.container = new DomEl('div.library.thumbnailView');
         this.labelContainer = new DomEl('div.sr-only');
-        let buttonBar = new DomEl('div.display-flex.space-between');
+        let buttonBar = new DomEl('div.display-flex.j-between');
         this.addButton = new DomButton('addImage', 'file-upload', 'secondary stack', ' Upload');
         this.loadButton = new DomButton('loadMore', 'retweet', 'primary inverse stack', 'Load More');
         this.loadButton.setAttribute('disabled','');

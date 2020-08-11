@@ -301,6 +301,7 @@
         }
 
         getValues() {
+            this.saveSettings();
             return this.settings;
         }
 
@@ -361,10 +362,10 @@
         registerSettings() {
             let mech = this;
             for (let [key, value] of Object.entries(this.settings)) {
-                if (mech.controller.settings && mech.controller.settings[key]) {
+                if (mech.controller.settings && typeof mech.controller.settings[key] !== 'undefined') {
                     mech.settings[key] = mech.controller.settings[key];
                 } else {
-                    mech.controller.settings[key] = value;
+                    mech.settings[key] = value;
                 }
             }
         }
@@ -686,10 +687,10 @@
             this.removeButton.addEventListener('click', function (e) {
                 e.preventDefault();
                 block.selectedImageId = false;
-                block.preview.src = '';
+                block.preview.removeAttribute('src');   
                 block.preview.classList.add('hide');
-                for (let[idx, value] of Object.entries('altText', 'imageCredit', 'caption')) {
-                    block[value] = '';
+                for (let[idx, value] of Object.entries(['altText', 'imageCredit', 'caption'])) {
+                    block[value].children[0].value = '';
                 }
                 block.form.classList.add('hide');
                 block.removeButton.classList.add('hide');
@@ -1047,12 +1048,12 @@
                     let imageContainer = new DomEl('figure');
                     let imageEl = new DomEl('img[src="' + newImage.dataset.imageUrl + '"][alt="' + newImage.dataset.altText + '"]');
                     imageContainer.append(imageEl);
-                    if (newImage.dataset.photoCredit) {
+                    if (newImage.dataset.photoCredit && newImage.dataset.photoCredit !== 'null') {
                         let creditEl = new DomEl('figcaption.credit');
                         creditEl.innerText = newImage.dataset.credit;
                         imageContainer.append(creditEl);
                     }
-                    if (newImage.dataset.caption) {
+                    if (newImage.dataset.caption && newImage.dataset.caption !== 'null') {
                         let captionEl = new DomEl('figcaption.caption');
                         captionEl.innerText = newImage.dataset.caption;
                         imageContainer.append(captionEl);

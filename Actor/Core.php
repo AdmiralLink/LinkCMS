@@ -18,6 +18,7 @@ class Core {
     var $menu;
     var $messages = [];
     var $modules;
+    var $theme;
 
     public static function add_filter($filterName, $function) {
         /** 
@@ -194,10 +195,18 @@ class Core {
     
         $GLOBALS['linkcmscore']->config = Config::load();
         $GLOBALS['linkcmscore']->menu = new Menu('Core');
+        $GLOBALS['linkcmscore']->content = new Content();
+        
+        if ($GLOBALS['linkcmscore']->config->get_config('theme')) {
+            $GLOBALS['linkcmscore']->theme = Theme::load_current_theme();
+        } else {
+            Core::add_message('Template Name or Namespace not set in config file; frontend pages will not work correctly');
+        }
+        
+        new Settings();
 
         $GLOBALS['linkcmscore']->modules = new Module();
         
-        Content::add_content_routes();
 
         Image::add_routes();
 

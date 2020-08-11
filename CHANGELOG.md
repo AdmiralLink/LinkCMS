@@ -1,3 +1,20 @@
+# 0.9.4
+## ADDED
+- Content type registry
+- $theme, $content to config
+- New header types to Display
+- Default home page handlers
+- Initialize theme
+- Template to content model
+- Messages added to index
+- File, Settings actors
+- Settings template file
+## MODIFIED
+- Fixed ImageBlock when removing image + saving
+- Renamed Themes to Theme
+- Null checks for image content
+
+
 # 0.9.3
 ## ADDED
 - Editor.getBlock
