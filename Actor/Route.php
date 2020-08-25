@@ -88,7 +88,7 @@ class Route {
                 if ($content) {
                     if (isset($core->content->registry->{$content['type']})) {
                         $content = new $core->content->registry->{$content['type']}($content);
-                        Display::load_page('pages/' . $content->template . '.twig', [$content->type => $content]);
+                        Display::load_page('content/' . $content->template . '.twig', [$content->type => $content]);
                     }
                 }
             } else {
@@ -98,7 +98,7 @@ class Route {
                     if ($content) {
                         if (isset($core->content->registry->{$content['type']})) {
                             $content = new $core->content->registry->{$content['type']}($content);
-                            Display::load_page('pages/' . $content->template . '.twig', [$content->type => $content]);
+                            Display::load_page('content/' . $content->template . '.twig', [$content->type => $content]);
                         }
                     } else {
                         continue;

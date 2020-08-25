@@ -1359,6 +1359,10 @@
             if (e.ctrlKey || e.metaKey) {
                 if (e.shiftKey) {
                     switch (e.keyCode) {
+                        case 80:
+                            e.preventDefault();
+                            new SelectionWrapper('p', this.view);
+                            return false;
                         case 221:
                             e.preventDefault();
                             new SelectionWrapper(['ol', 'li'], this.view);

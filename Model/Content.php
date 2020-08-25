@@ -4,9 +4,10 @@ namespace LinkCMS\Model;
 
 use LinkCMS\Actor\Core;
 
-abstract class Content {
+class Content {
     var $draftContent;
     var $draftModifiedDate;
+    var $excerpt;
     var $id;
     var $pubDate;
     var $publishedContent;

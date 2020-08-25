@@ -1,3 +1,12 @@
+# 9.9.5
+## ADDED
+- Content.js
+## MODIFIED
+- Content Controller includes exerpt, default load_ functions
+- Content model no longer abstract (can be used as Factory)
+- Added paragraph tag shortcut to Hat
+- Textareas styled better in forms
+
 # 0.9.4
 ## ADDED
 - Content type registry
