@@ -14,8 +14,8 @@ This is an early, dogfooding beta. You could set it up if you want to, but you'r
 
 ## Modules
 
-- (Pages)[https://github.com/AdmiralLink/LinkCMS-Module-Pages]
-- (Posts)[https://github.com/AdmiralLink/LinkCMS-Module-Posts]
+- [Pages](https://github.com/AdmiralLink/LinkCMS-Module-Pages)
+- [Posts](https://github.com/AdmiralLink/LinkCMS-Module-Posts)
 
 ## Requirements
 
