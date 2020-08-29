@@ -22,9 +22,6 @@ class Content {
          * Helper function to add a specific content type to the registry of content types
          */
         if (isset($this->registry->{$slug})) {
-            var_dump($slug);
-            var_dump($this->registry->{$slug});
-            exit();
             throw new \Exception('Content type already exists');
         }
         $this->registry->{$slug} = $class;

@@ -1,3 +1,7 @@
+# 0.9.7
+## REMOVED
+- Some debugging var_dumps
+
 # 0.9.6
 ## ADDED
 - Comments throughout
