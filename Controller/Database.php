@@ -7,12 +7,18 @@ use LinkCMS\Actor\Config;
 use LinkCMS\Actor\Core;
 
 class Database {
+    /**
+     * Generic database class. Sets up the connection, has basic methods for most things but a lot of them get overwritten when applied to specific actions
+     */
     static $dbTable;
     static $fields;
 
     var $connection;
 
     public function __construct() {
+        /**
+         * Sets up the connection based on the values in site.json
+         */
         $dbInfo = Config::get_config('database');
         $required = ['dbHost', 'dbName', 'dbPassword', 'dbUser'];
         foreach ($required as $parameter) {
@@ -24,6 +30,9 @@ class Database {
     }
 
     public static function delete_by(String $field, $value, $evaluator = '=') {
+        /**
+         * Deletes an item using the specified parameters
+         */
         $db = Core::get_db();
 
         $query = $db->connection->prepare('DELETE FROM ' . static::$dbTable . ' WHERE ' . $field . ' ' . $evaluator . ' :value');
@@ -31,6 +40,9 @@ class Database {
     }
 
     public static function get_count($where=false) {
+        /**
+         * Gets the total count of an object with an optional where clause
+         */
         $db = Core::get_db();
         $where = ($where) ? ' WHERE ' . $where : '';
         $query = $db->connection->prepare('SELECT COUNT(*) as count FROM ' . static::$dbTable . $where);
@@ -40,6 +52,9 @@ class Database {
     }
 
     public static function get_field($field) {
+        /**
+         * Gets an entire column for a given match
+         */
         $db = Core::get_db();
         if ($field) {
             $query = $db->connection->query('SELECT ' . $field . ' FROM ' . static::$dbTable);
@@ -54,6 +69,9 @@ class Database {
     }
 
     public static function load_all($offset=false, $limit=false, $orderBy=false) {
+        /**
+         * Loads everything from an existing table
+         */
         $db = Core::get_db();
 
         $queryString = 'SELECT * FROM ' . static::$dbTable;
@@ -71,16 +89,10 @@ class Database {
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-
-    public static function load_collection_by(String $field, $value, $evaluator='=') {
-        $db = Core::get_db();
-
-        $query = $db->connection->prepare('SELECT * FROM ' . static::$dbTable . ' WHERE '. $field . ' ' . $evaluator . ' :value');
-        $query->execute(['value'=>$value]);
-        return $query->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
     public static function load_by(String $field, $value) {
+        /**
+         * Loads everything based on the given parameters. Will often be overwritten
+         */
         $db = Core::get_db();
         
         $query = $db->connection->prepare('SELECT * FROM ' . static::$dbTable . ' WHERE ' . $field . ' = :value');
@@ -89,6 +101,9 @@ class Database {
     } 
 
     public static function save($object) {
+        /**
+         * Generic save function based on an object. Will be overwritten in most child classes.
+         */
         $dataToStore = [];
         $fields = '';
         $valueString = '';
@@ -107,6 +122,9 @@ class Database {
     }
 
     public static function update($updateObj) {
+        /**
+         * Generic update function based on an object. Will be overwritten in most child classes.
+         */
         $db = Core::get_db();
         $id = false;
         if (isset($updateObj->id)) {

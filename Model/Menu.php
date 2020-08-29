@@ -3,6 +3,9 @@
 namespace LinkCMS\Model;
 
 class Menu {
+    /**
+     * Used for backend menu. Probably could also be used for frontend menus, but I only need one and it's in the theme so ¯\_(ツ)_/¯
+     */
     var $itemSlugs = [];
     var $items = [];
     var $href;

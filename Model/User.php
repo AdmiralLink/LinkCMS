@@ -7,6 +7,9 @@ use LinkCMS\Actor\Display;
 use LinkCMS\Actor\User as UserActor;
 
 class User {
+    /**
+     * Default user class. I tried to make it as thorough as possible while also being extensible, but I imagine if you needed a lot more it might make more sense to just overwrite it
+     */
     var $accessLevel; // Int
     var $email;
     var $id;

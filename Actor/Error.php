@@ -5,24 +5,29 @@ namespace LinkCMS\Actor;
 use \Flight;
 
 class Error {
-    var $handler404;
+    var $handler404 = '404.twig';
     var $handler;
     const UNAUTHORIZED = 'You are not authorized to view this resource';
 
     public static function handle_404() {
+        /**
+         * Handles 404 errors. If theme creators want to use their own handler, they can use the Error::register_404_handler to show a themed page
+         */
         $request = Flight::request();
         http_response_code(404);
         $error = self::load();
         if (strpos($request->url, '/api') !== false) {
             Notify::throw_error('No such route exists');
-        } else if ($error->handler404) {
-            call_user_func($error->handler404);
         } else {
-            Display::load_page('404.twig', []);
+            Display::load_page($error->handler404, []);
         }
     }
     
     public static function handle_error($e, $force=false) {
+        /**
+         * Handles non-404 errors on /manage and /api.
+         * API errors are thrown as JSON rather than HTML.
+         */
         global $whoops;
 
         if (is_string($e)) {
@@ -51,6 +56,9 @@ class Error {
     }
 
     public static function internal_error_handler($e, $forceError=false) {
+        /**
+         * Handles 404 errors. If theme creators want to use their own handler, they can use the Error::register_404_handler to show a themed page
+         */
         http_response_code(500);
         $error = new \stdClass();
         $error->message = (method_exists($e, 'getMessage')) ? $e->getMessage() : $e;
@@ -65,15 +73,26 @@ class Error {
     }
     
     public static function load() {
+        /**
+         * Loads global value for errors.
+         * 
+         * System-only
+         */
         return $GLOBALS['linkcmsErrors'];
     }
 
-    public static function register_404_handler($function) {
-        $GLOBALS['linkcmsErrors']->handler404 = $function;
+    public static function register_404_handler($template) {
+        /**
+         * For themes to register their own 404 templates.
+         */
+        $GLOBALS['linkcmsErrors']->handler404 = $template;
     }
     
-    public static function register_error_handler($function) {
-        $GLOBALS['linkcmsErrors']->handler = $function;
+    public static function register_error_handler($template) {
+        /**
+         * For themes to register their own errors page templates for PHP errors.
+         */
+        $GLOBALS['linkcmsErrors']->handler = $template;
     }
 }
 

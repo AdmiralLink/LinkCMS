@@ -9,6 +9,9 @@ class Notify {
     var $type;
 
     public function __construct($message, $type, $json=true) {
+        /**
+         * Outputs a JSON message to the screen
+         */
         $this->content = $message;
         $this->type = $type;
         if ($json) {
@@ -18,10 +21,16 @@ class Notify {
     }
 
     public static function send_message($message, $type="success") {
+        /**
+         * Static shortcut for sending a JSON message
+         */
         new self($message, $type, true);
     }
 
     public static function throw_error($message) {
+        /**
+         * Static shortcut for sending JSON error message
+         */
         return ['message'=> new Notify($message, 'error')];
     }
 }

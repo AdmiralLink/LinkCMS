@@ -9,6 +9,11 @@ class Theme {
     const THEME_DIR = __DIR__ . '/../Theme/';
 
     public function __construct(String $name, $exception=true) {
+        /**
+         * Called to load the current theme, as defined in site.json
+         * 
+         * System-only
+         * */
         $this->name = $name;
         if (file_exists(self::THEME_DIR . $name . '/theme.json')) {
             $this->info = json_decode(file_get_contents(self::THEME_DIR . $name . '/theme.json'));
@@ -22,27 +27,23 @@ class Theme {
     }
 
     private function initialize_theme() {
+        /** 
+         * Calls theme functions
+         *
+         * System-only
+         */
         if (isset($this->info->init)) {
             call_user_func($this->info->init);
         }
     }
 
     public static function load_current_theme() {
+        /**
+         * Loads current theme from Config value.
+         * 
+         * System-only
+         */
         $templateName = Config::get_config('theme');
         return new Theme($templateName);
-    }
-
-    public static function get_themes() {
-        $themes = array_filter(glob(self::THEME_DIR . '*'));
-        if (!empty($themes)) {
-            $return = [];
-            foreach ($themes as $theme) {
-                $name = basename($theme);
-                array_push($return, new Theme($name, false));
-            }
-            return $return;
-        } else {
-            return false;
-        }
     }
 }

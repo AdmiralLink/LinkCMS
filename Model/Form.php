@@ -3,6 +3,9 @@
 namespace LinkCMS\Model;
 
 class Form {
+    /**
+     * Used with FormHandler for standard backend forms
+     */
     var $requiredFields = [];
     var $fields = [];
  

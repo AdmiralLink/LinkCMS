@@ -1,3 +1,9 @@
+# 0.9.6
+## ADDED
+- Comments throughout
+## MODIFIED
+- User-settable 404 + Error handlers now only expect the template rather than the whole executable function
+
 # 0.9.5
 ## ADDED
 - Content.js

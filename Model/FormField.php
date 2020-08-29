@@ -3,6 +3,9 @@
 namespace LinkCMS\Model;
 
 class FormField {
+    /**
+     * Used as a component of Form
+     */
     var $displayLabel;
     var $name;
     var $attributes;

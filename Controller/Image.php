@@ -10,6 +10,9 @@ class Image extends Database {
     static $fields = ['altText', 'caption', 'imageUrl', 'title', 'imageCredit'];
 
     public static function load_all($offset=false, $limit=20, $orderBy='id DESC') {
+        /**
+         * Loads existing images as an array of Image objects
+         */
         $results = parent::load_all($offset, $limit, $orderBy);
         if ($results) {
             $images = [];

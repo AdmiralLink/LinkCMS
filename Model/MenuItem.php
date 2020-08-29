@@ -3,6 +3,9 @@
 namespace LinkCMS\Model;
 
 class MenuItem {
+    /**
+     * Used by Menu
+     */
     var $attr;
     var $childSlugs = [];
     var $children = [];

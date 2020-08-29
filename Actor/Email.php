@@ -7,6 +7,9 @@ use PHPMailer\PHPMailer\Exception;
 
 class Email {
     public static function send($from=false, $to, $subject, $HTMLContent, $textContent) {
+        /**
+         * Mail sender. SMTP not currently enabled (as you can see by the TODO)
+         */
         // TODO: Enable SMTP (including settings in Config)
         $from = ($from) ? $from : Config::get_config('adminEmail');;
         $mail = new PHPMailer(true);

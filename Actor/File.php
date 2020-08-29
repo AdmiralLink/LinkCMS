@@ -3,6 +3,9 @@
 namespace LinkCMS\Actor;
 
 class File {
+    /**
+     * This class exists to hold the file extension lookup table for Display::find_header().
+     */
     const KNOWN_EXTENSIONS = [
         'css'   =>  'text/css',
         'csv'   =>  'text/csv',

@@ -26,7 +26,7 @@ class Image {
                 }
             }
         } else {
-            Notify::throw_error('Improper image image format');
+            Notify::throw_error('Improper image format');
         }
     }
 }

@@ -168,6 +168,9 @@ class Core {
     }
 
     public static function has_hook($hookName) {
+        /**
+         * Check if a hook has been set
+         */
         $core = Core::load();
         if (isset($core->hooks[$hookName]) && count($core->hooks[$hookName]) > 0) {
             return true;

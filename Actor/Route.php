@@ -7,6 +7,9 @@ use LinkCMS\Model\User as UserModel;
 use LinkCMS\Controller\Content as ContentController;
 
 class Route {
+    /**
+     *  Manages the routing information for the entire system
+     */
     var $manageNamespaces = ['modules', 'users'];
     var $namespaces = ['manage'];
     var $routes = [];

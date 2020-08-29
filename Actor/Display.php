@@ -108,6 +108,9 @@ class Display {
     }
 
     public static function add_path_info() {
+        /**
+         * Adds path info to the Twig variables (pageSlug and parentSlugs)
+         */
         $request = Flight::request();
         $parts = explode('/', $request->url);
         if (count($parts) > 1) {
@@ -122,12 +125,19 @@ class Display {
     }
 
     public static function add_template_directory($directory) {
+        /**
+         * Adds a template directory to the TwigLoader. DO NOT start at a "templates" folder level, as it will pollute the directory. 
+         * Instead, create a containing folder that includes the module/theme name to avoid collisions
+         */
         $display = Display::load();
         array_push($display->templateDirectories, $directory);
         return true;
     }
 
     public static function find_header($filename) {
+        /**
+         * Searches the internal file header type so we can return the appropriate header for different file extensions 
+         */
         $type = false;
         $extension = explode(".", $filename);
         $extension = end($extension);
@@ -138,6 +148,9 @@ class Display {
     }
 
     public static function header(String $type) {
+        /**
+         * Output file header (used by find_header, can be manually used as well)
+         */
         header('Content-type: ' . $type);
     }
 
@@ -182,6 +195,9 @@ class Display {
     }
 
     public static function load_error_page($error) {
+        /**
+         * For displaying an error page to the user.
+         */
         $display = Display::load();
         $GLOBALS['linkcmsTwigLoader'] = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../Templates');
         if (!empty($display->templateDirectories)) {

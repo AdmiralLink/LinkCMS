@@ -8,10 +8,16 @@ use LinkCMS\Model\Image as ImageModel;
 use LinkCMS\Model\User as UserModel;
 
 class Image {
+    /**
+     * Image handling class
+     */
     static $allowedImageTypes = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/svg+xml' => 'svg'];
     static $imagePath = __DIR__ . '/../Public/images/upload/';
 
     public static function add_routes() {
+        /**
+         * Adds upload and API loader offsets
+         */
         Flight::route('POST /api/image/upload', function() {
             User::is_authorized(UserModel::USER_LEVEL_AUTHOR);
             self::move_file();
@@ -36,6 +42,9 @@ class Image {
     }
 
     public static function get_image_directory() {
+        /**
+         * Gets the image directory based on the current date (used for uploads)
+         */
         $year = date('Y');
         $month = date('M');
         $directory = $year . '/' . $month . '/';
@@ -49,6 +58,9 @@ class Image {
     }
 
     public static function move_file() {
+        /**
+         * Moves uploaded files to their destination. Randomizes file names for security (and because I hate SEO-ing images)
+         */
         if (isset($_FILES['image'])) {
             $image = $_FILES['image'];
             $mimeType = mime_content_type($image['tmp_name']);
