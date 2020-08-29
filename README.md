@@ -1,4 +1,5 @@
 # LinkCMS
+![LinKCMS](Public/images/core/logo_large.jpg)  
 
 A developer-focused, Twig-based PHP CMS
 

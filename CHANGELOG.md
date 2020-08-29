@@ -1,6 +1,6 @@
 # 0.9.8
 ## ADDED
-- Readme
+- Readme, photo
 
 # 0.9.7
 ## REMOVED
