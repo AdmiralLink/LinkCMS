@@ -11,6 +11,12 @@ This is an early, dogfooding beta. You could set it up if you want to, but you'r
 
 [This post](https://kaitlynconcilio.com/building-my-own-cms-linkcms) lays out the why and how of the build.
 
+
+## Modules
+
+- (Pages)[https://github.com/AdmiralLink/LinkCMS-Module-Pages]
+- (Posts)[https://github.com/AdmiralLink/LinkCMS-Module-Posts]
+
 ## Requirements
 
 - PHP 7.0
